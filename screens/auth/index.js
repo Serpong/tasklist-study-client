@@ -1,15 +1,42 @@
 import React from 'react';
 
-import { View, Text, Button } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import Container from '../../components/layout/Container';
+import { BtnBorder, BtnSecondary } from '../../components/layout/Components';
 
 
-const Index = ({navigation})=>{
+const Index = (props)=>{
+	const { navigation } = props;
 	return(
-		<View>
-			<Text>테스트</Text>
-			<Button title="로그인하러가기" onPress={()=>{navigation.navigate("Login")}} />
-		</View>
+		<Container {...props} style={{backgroundColor:'#3cc5b1',}}>
+			<View style={styles.indexContainer}>
+				<Text style={styles.text1}>Welcome</Text>
+				<Text style={styles.text2}>Easiest way{'\n'}Manage your tasks</Text>
+				<BtnSecondary title="Login" onPress={()=>{navigation.navigate("Login")}} />
+				<BtnBorder title="Sign Up" onPress={()=>{navigation.navigate("SignUp")}} />
+			</View>
+		</Container>
 	)
 }
+
+const styles = StyleSheet.create({
+	indexContainer:{
+		flex:1,
+		justifyContent:'flex-end',
+		padding:15,
+		paddingBottom:'45%',
+	},
+	text1:{
+		color:'#fff',
+		fontSize:40,
+		fontWeight:'bold',
+		marginBottom:'5%',
+	},
+	text2:{
+		color:'#fff',
+		fontSize:20,
+		marginBottom:'15%',
+	},
+});
 
 export default Index;
