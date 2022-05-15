@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Container, BtnPrimary, InputPrimary } from '../../components/layout/Components';
 import { userSetLogin } from '../../reducers/userReducer';
 import Apis from '../../utils/Apis';
-import { onChangeInput, useInputs } from '../../utils/componentUtils';
+import { useInputs } from '../../utils/componentUtils';
 
 
 const SignUpScreen = (props)=>{
@@ -18,7 +18,7 @@ const SignUpScreen = (props)=>{
 		userName:"",
 	});
 	
-	const onSignUp = async()=>{
+	const onSignUp = async ()=>{
 		if(inputPass != inputPassCheck)
 			return Alert.alert("오류", "패스워드 확인이 틀립니다.");
 
@@ -44,39 +44,31 @@ const SignUpScreen = (props)=>{
 	return(
 		<Container hasBack={true} {...props}>
 			<View style={styles.signUpContainer}>
-				<Text>Sign Up aa {signUpInputs.userId}</Text>
+				<Text>Sign Up</Text>
 				<InputPrimary
 					placeholder='ID'
 					{...signUpInputs.inputProps('userId')}
-					// value={inputId}
-					// onChangeText={onChangeInput(setInputId)}
 				/>
 				<InputPrimary
 					placeholder='name'
 					{...signUpInputs.inputProps('userName')}
-					// value={inputName}
-					// onChangeText={onChangeInput(setInputName)}
 				/>
 				<InputPrimary
 					placeholder='Password'
 					textContentType="password"
 					secureTextEntry
 					{...signUpInputs.inputProps('userPass')}
-					// value={inputPass}
-					// onChangeText={onChangeInput(setInputPass)}
 				/>
 				<InputPrimary
 					placeholder='Password check'
 					textContentType="password"
 					secureTextEntry
 					{...signUpInputs.inputProps('userPassCheck')}
-					// value={inputPassCheck}
-					// onChangeText={onChangeInput(setInputPassCheck)}
 				/>
 				<BtnPrimary
 					title="Sign Up"
 					style={{marginTop:15,}}
-					onPress={()=>onSignUp()}
+					onPress={onSignUp}
 				/>
 			</View>
 		</Container>

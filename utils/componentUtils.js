@@ -24,10 +24,3 @@ export const useInputs = (initialState)=>{
 		...inputs
 	};
 }
-
-export const onChangeInput = (setter, name)=>{
-	if(name)
-		return (val)=>setter(val)
-	else
-		return (val)=>setter(val)
-};

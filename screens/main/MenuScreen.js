@@ -7,7 +7,7 @@ import Apis from '../../utils/Apis';
 import { userSetLogout } from '../../reducers/userReducer';
 
 
-const Index = (props)=>{
+const MenuScreen = (props)=>{
 	const dispatch = useDispatch();
 
 	const onLogout = ()=>{
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default Index;
+export default MenuScreen;

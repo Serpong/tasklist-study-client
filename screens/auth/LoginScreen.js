@@ -6,7 +6,7 @@ import { BtnBorder, BtnPrimary, BtnSecondary, Container, InputPrimary } from '..
 import Apis from '../../utils/Apis';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSetLogin } from '../../reducers/userReducer';
-import { onChangeInput, useInputs } from '../../utils/componentUtils';
+import { useInputs } from '../../utils/componentUtils';
 
 
 const LoginScreen = (props)=>{
