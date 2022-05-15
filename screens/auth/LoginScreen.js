@@ -1,17 +1,34 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import Container from '../../components/layout/Container';
 import { BtnBorder, BtnPrimary, BtnSecondary, InputPrimary } from '../../components/layout/Components';
 
-import Apis from '../../apis';
+import Apis from '../../utils/Apis';
 
 const LoginScreen = (props)=>{
-	const { navigation } = props;
+	const { navigation } = props; //, setLoggedIn
+	// console.log(props.setLoggedIn);
 
-	const onLogin = ()=>{
-		console.log('pressed');
-		Apis.login();
+	const [inputId, 	setInputId] 	= useState('');
+	const [inputPass, 	setInputPass] 	= useState('');
+
+	const onChangeInput = (setter)=>(val)=>setter(val);
+
+	const onLogin = async ()=>{
+		const apiResult = await Apis.login({
+			userId	: inputId,
+			userPass: inputPass
+		});
+
+
+		if(apiResult.error){
+			Alert.alert("로그인 오류", apiResult.error.msg);
+		}
+		else{
+			console.log('setLoggedIn redux로 가져오는 것 부터');
+			// setLoggedIn(true);
+		}
 	}
 
 	return(
@@ -21,11 +38,15 @@ const LoginScreen = (props)=>{
 				<Text style={styles.text2}>Easiest way{'\n'}Manage your tasks</Text>
 				<InputPrimary
 					placeholder='ID'
+					value={inputId}
+					onChangeText={onChangeInput(setInputId)}
 				/>
 				<InputPrimary
 					placeholder='Password'
 					textContentType="password"
 					secureTextEntry
+					value={inputPass}
+					onChangeText={onChangeInput(setInputPass)}
 				/>
 				<BtnPrimary
 					title="Login"
