@@ -19,27 +19,22 @@ const LoginScreen = (props)=>{
 
 	const onChangeInput = (setter)=>(val)=>setter(val);
 
-	const {isLoggedIn} = useSelector(state=>state.userReducer);
-	console.log(isLoggedIn);
-
 	const onLogin = async ()=>{
 		const apiResult = await Apis.login({
 			userId	: inputId,
 			userPass: inputPass
 		});
 
-		if(apiResult.error){
+		if(apiResult.error)
 			Alert.alert("로그인 오류", apiResult.error.msg);
-		}
-		else{
+		else
 			dispatch(userSetLogin());
-		}
 	}
 
 	return(
 		<Container hasBack={true} {...props} style={{backgroundColor:'#fff',}}>
 			<View style={styles.loginContainer}>
-				<Text style={styles.text1}>Login{isLoggedIn}</Text>
+				<Text style={styles.text1}>Login</Text>
 				<Text style={styles.text2}>Easiest way{'\n'}Manage your tasks</Text>
 				<InputPrimary
 					placeholder='ID'

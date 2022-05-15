@@ -14,5 +14,6 @@ function reducer(state = initialState, action){
 }
 
 export const userSetLogin = ()=>({type:"login"});
+export const userSetLogout = ()=>({type:"logout"});
 
 export default reducer;

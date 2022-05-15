@@ -3,10 +3,10 @@ import axios from 'axios';
 
 const API_HOST = "http://192.168.0.3:3000";
 
-const apiRequest = async (path, data)=>{
+const apiRequest = async (path, method, data)=>{
 	let result = {};
 	await axios({
-		method	:'post',
+		method	: method,
 		url		: API_HOST+path,
 		data	: data
 	})
@@ -22,7 +22,11 @@ const apiRequest = async (path, data)=>{
 
 const Apis = {
 	login: async ({userId, userPass})=>{
-		const result = await apiRequest("/auth/user-login", {userId, userPass});
+		const result = await apiRequest("/auth/user-login", "post", {userId, userPass});
+		return result;
+	},
+	loginCheck: async ()=>{
+		const result = await apiRequest("/auth/login-check", "get");
 		return result;
 	}
 }
