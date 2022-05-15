@@ -1,5 +1,18 @@
 import React, {useState} from 'react';
-import { StyleSheet, TouchableOpacity, Text, TextInput } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, View, TextInput } from 'react-native';
+import CustomBack from './CustomBack';
+
+
+
+const Container = (props)=>{
+	// const { hasBack, children, navigation, style } = props;
+	return(
+		<View style={{...props.style, ...styles.container, ...(props.hasBack?{paddingTop:50,}:{})}}>
+			{props.hasBack && <CustomBack navigation={props.navigation} />}
+			{props.children}
+		</View>
+	)
+}
 
 const BtnPrimary = (props)=>{
 	return(
@@ -36,6 +49,9 @@ const InputPrimary = (props)=>{
 }
 
 const styles = StyleSheet.create({
+	container:{
+		flex:1,
+	},
 	btn:{
 		borderRadius:5,
 		height:40,
@@ -68,6 +84,7 @@ const styles = StyleSheet.create({
 });
 
 export {
+	Container,
 	BtnPrimary,
 	BtnSecondary,
 	BtnBorder,

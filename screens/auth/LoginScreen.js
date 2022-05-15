@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 
 import { View, Text, StyleSheet, Alert } from 'react-native';
-import Container from '../../components/layout/Container';
-import { BtnBorder, BtnPrimary, BtnSecondary, InputPrimary } from '../../components/layout/Components';
+import { BtnBorder, BtnPrimary, BtnSecondary, Container, InputPrimary } from '../../components/layout/Components';
 
 import Apis from '../../utils/Apis';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSetLogin } from '../../reducers/userReducer';
+import { onChangeInput, useInputs } from '../../utils/componentUtils';
 
 
 const LoginScreen = (props)=>{
@@ -14,15 +14,15 @@ const LoginScreen = (props)=>{
 	
 	const { navigation } = props;
 
-	const [inputId, 	setInputId] 	= useState('');
-	const [inputPass, 	setInputPass] 	= useState('');
-
-	const onChangeInput = (setter)=>(val)=>setter(val);
+	const loginInputs = useInputs({
+		userId:"",
+		userPass:"",
+	})
 
 	const onLogin = async ()=>{
 		const apiResult = await Apis.login({
-			userId	: inputId,
-			userPass: inputPass
+			userId	: loginInputs.userId,
+			userPass: loginInputs.userPass
 		});
 
 		if(apiResult.error)
@@ -38,15 +38,13 @@ const LoginScreen = (props)=>{
 				<Text style={styles.text2}>Easiest way{'\n'}Manage your tasks</Text>
 				<InputPrimary
 					placeholder='ID'
-					value={inputId}
-					onChangeText={onChangeInput(setInputId)}
+					{...loginInputs.inputProps('userId')}
 				/>
 				<InputPrimary
 					placeholder='Password'
 					textContentType="password"
 					secureTextEntry
-					value={inputPass}
-					onChangeText={onChangeInput(setInputPass)}
+					{...loginInputs.inputProps('userPass')}
 				/>
 				<BtnPrimary
 					title="Login"

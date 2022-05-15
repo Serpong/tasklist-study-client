@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { View, Text, StyleSheet } from 'react-native';
-import Container from '../../components/layout/Container';
-import { BtnBorder, BtnSecondary } from '../../components/layout/Components';
+import { BtnBorder, BtnSecondary, Container } from '../../components/layout/Components';
 
 
 const Index = (props)=>{

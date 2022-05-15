@@ -12,6 +12,7 @@ const apiRequest = async (path, method, data)=>{
 	})
 	.then(response=>{
 		result = response.data;
+		result.error = false;
 	})
 	.catch(error=>{
 		result = {error: error.response.data.error??{msg:"비정상적인 오류입니다."}};
@@ -22,12 +23,16 @@ const apiRequest = async (path, method, data)=>{
 
 const Apis = {
 	login: async ({userId, userPass})=>{
-		const result = await apiRequest("/auth/user-login", "post", {userId, userPass});
-		return result;
+		return await apiRequest("/auth/user-login", "post", {userId, userPass});
+	},
+	register: async ({userId, userPass, userName})=>{
+		return await apiRequest("/auth/user-register", "post", {userId, userPass, userName});
+	},
+	logout: async ()=>{
+		return await apiRequest("/auth/user-logout", "post");
 	},
 	loginCheck: async ()=>{
-		const result = await apiRequest("/auth/login-check", "get");
-		return result;
+		return await apiRequest("/auth/login-check", "get");
 	}
 }
 
