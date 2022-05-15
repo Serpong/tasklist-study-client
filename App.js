@@ -1,18 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import allReducers from "./reducers";
+import Navigations from './Navigations';
 
-import AuthNavigator from './navigators/AuthNavigator';
-import MainNavigator from './navigators/MainNavigator';
+const store = createStore(allReducers);
 
 const App = ()=>{
-	const [loggedIn, setLoggedIn] = useState(false);
 	return (
-		<NavigationContainer>
-			{
-				!loggedIn ? <AuthNavigator /> : <MainNavigator/>
-			}
-		</NavigationContainer>
+		<Provider store={store}>
+			<Navigations />
+		</Provider>
 	);
 }
 

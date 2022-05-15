@@ -1,0 +1,12 @@
+{
+	"files.exclude": {
+		"node_modules/": true,
+		".*": true,
+		// "**/._*": true,
+		"__tests__": true,
+		"babel.config.js": true,
+		"Gemfile*": true,
+		"metro*": true,
+		"app.json": true,
+	}
+}

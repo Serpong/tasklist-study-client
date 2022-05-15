@@ -5,15 +5,22 @@ import Container from '../../components/layout/Container';
 import { BtnBorder, BtnPrimary, BtnSecondary, InputPrimary } from '../../components/layout/Components';
 
 import Apis from '../../utils/Apis';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSetLogin } from '../../reducers/userReducer';
+
 
 const LoginScreen = (props)=>{
-	const { navigation } = props; //, setLoggedIn
-	// console.log(props.setLoggedIn);
+	const dispatch = useDispatch();
+	
+	const { navigation } = props;
 
 	const [inputId, 	setInputId] 	= useState('');
 	const [inputPass, 	setInputPass] 	= useState('');
 
 	const onChangeInput = (setter)=>(val)=>setter(val);
+
+	const {isLoggedIn} = useSelector(state=>state.userReducer);
+	console.log(isLoggedIn);
 
 	const onLogin = async ()=>{
 		const apiResult = await Apis.login({
@@ -21,20 +28,18 @@ const LoginScreen = (props)=>{
 			userPass: inputPass
 		});
 
-
 		if(apiResult.error){
 			Alert.alert("로그인 오류", apiResult.error.msg);
 		}
 		else{
-			console.log('setLoggedIn redux로 가져오는 것 부터');
-			// setLoggedIn(true);
+			dispatch(userSetLogin());
 		}
 	}
 
 	return(
 		<Container hasBack={true} {...props} style={{backgroundColor:'#fff',}}>
 			<View style={styles.loginContainer}>
-				<Text style={styles.text1}>Login</Text>
+				<Text style={styles.text1}>Login{isLoggedIn}</Text>
 				<Text style={styles.text2}>Easiest way{'\n'}Manage your tasks</Text>
 				<InputPrimary
 					placeholder='ID'
