@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { Container } from '../../components/layout/Components';
 
 
@@ -10,22 +10,34 @@ const TaskListScreen = (props)=>{
 		{id:2, title:"asdf", writer:"hongkildong"},
 		{id:3, title:"ssss", writer:"heller"},
 		{id:4, title:"fdg33", writer:"Lee"},
-		{id:6, title:"sa", writer:"Kim"},
-		{id:7, title:"title", writer:"hongkildong"},
-	]
+		{id:5, title:"sa", writer:"Kim"},
+		{id:6, title:"title", writer:"hongkildong"},
+		{id:7, title:"fdg33", writer:"Lee"},
+		{id:8, title:"sa", writer:"Kim"},
+		{id:9, title:"title", writer:"hongkildong"},
+		{id:10, title:"title", writer:"hongkildong"},
+		{id:11, title:"title", writer:"hongkildong"},
+	];
+
+
+	const onPressTaskListItem=()=>{
+
+	}
+
 
 	const renderItem = ({ item })=>{
 		return (
-			<View style={styles.taskListItem}>
+			<TouchableOpacity style={styles.taskListItem} onPress={onPressTaskListItem}>
 				<Text style={styles.taskListItemText}>{item.title}</Text>
-			</View>
+			</TouchableOpacity>
 		);
 	}
 
 	return(
-		<Container {...props} style={styles.container}>
+		<Container hasBack={true} hasBackNoPadding={true} {...props} style={styles.container}>
 			<FlatList
 				style={styles.taskList}
+				contentContainerStyle={styles.taskListContainer}
 				data={data}
 				renderItem={renderItem}
 				keyExtractor={item=>item.id}
@@ -36,22 +48,29 @@ const TaskListScreen = (props)=>{
 
 const styles = StyleSheet.create({
 	container:{
-		backgroundColor:'#fff',
+		backgroundColor:'#aaa',
 		flex:1,
 	},
 	taskList:{
 		flex:1,
-		paddingHorizontal:15,
+	},
+	taskListContainer:{
+		backgroundColor:'#fff',
+		borderTopLeftRadius:15,
+		borderTopRightRadius:15,
+		padding:15,
+		marginHorizontal:10,
+		marginTop:100,
 	},
 	taskListItem:{
-		backgroundColor: '#50a14f',
-		padding:5,
-		paddingVertical:70,
-		marginVertical:10,
+		padding:10,
+		backgroundColor:'#a34',
+		marginVertical:5,
+		borderRadius:5,
 	},
 	taskListItemText:{
 		color:'#fff',
-	}
+	},
 });
 
 export default TaskListScreen;

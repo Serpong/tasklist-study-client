@@ -24,7 +24,7 @@ const LoginScreen = (props)=>{
 			userId	: loginInputs.userId,
 			userPass: loginInputs.userPass
 		});
-
+		
 		if(apiResult.error)
 			Alert.alert("로그인 오류", apiResult.error.msg);
 		else

@@ -3,10 +3,22 @@ import React from 'react';
 import Icons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MenuScreen from '../screens/main/MenuScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import FolderListScreen from '../screens/main/FolderListScreen';
 import TaskListScreen from '../screens/main/TaskListScreen';
 
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const TasksNavigator = ()=>{
+	return (
+		<Stack.Navigator screenOptions={{headerShown:false}}>
+			<Stack.Screen name="folderList" component={FolderListScreen}/>
+			<Stack.Screen name="taskList" component={TaskListScreen}/>
+		</Stack.Navigator>
+	)
+}
 
 const MainNavigator = ()=>{
 	const getTabBarIcon = (iconName)=>({focused, color, size})=>{
@@ -15,8 +27,8 @@ const MainNavigator = ()=>{
 	return (
 		<Tab.Navigator screenOptions={{headerShown:false}}>
 			<Tab.Screen
-				name="taskList"
-				component={TaskListScreen}
+				name="tasks"
+				component={TasksNavigator}
 				options={{
 					tabBarIcon:getTabBarIcon("layers-outline"),
 					tabBarLabel:"Tasks",

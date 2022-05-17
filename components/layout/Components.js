@@ -6,8 +6,9 @@ import CustomBack from './CustomBack';
 
 const Container = (props)=>{
 	// const { hasBack, children, navigation, style } = props;
+	const newPaddingTop = (props.style.paddingTop??props.style.padding??props.style.paddingVertical??0) + (props.hasBack&&!props.hasBackNoPadding?60:0);
 	return(
-		<View style={{...props.style, ...styles.container, ...(props.hasBack?{paddingTop:50,}:{})}}>
+		<View style={{...props.style, ...styles.container, paddingTop:newPaddingTop}}>
 			{props.hasBack && <CustomBack navigation={props.navigation} />}
 			{props.children}
 		</View>
