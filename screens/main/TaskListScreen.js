@@ -1,46 +1,58 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Alert, Animated, View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { Container } from '../../components/layout/Components';
+import Apis from '../../utils/Apis';
 
 
 const TaskListScreen = (props)=>{
-	const data = [
-		{id:1, title:"title", writer:"me"},
-		{id:2, title:"asdf", writer:"hongkildong"},
-		{id:3, title:"ssss", writer:"heller"},
-		{id:4, title:"fdg33", writer:"Lee"},
-		{id:5, title:"sa", writer:"Kim"},
-		{id:6, title:"title", writer:"hongkildong"},
-		{id:7, title:"fdg33", writer:"Lee"},
-		{id:8, title:"sa", writer:"Kim"},
-		{id:9, title:"title", writer:"hongkildong"},
-		{id:10, title:"title", writer:"hongkildong"},
-		{id:11, title:"title", writer:"hongkildong"},
-	];
+	const [taskList, setTaskList] = useState([]);
+	const {route:{params:{folderData}}} = props;
 
+	useEffect(()=>{
+		Apis.getTaskList({folder_id:props.route.params.folderData._id})
+			.then(apiResult=>{
+				if(apiResult.error)
+					Alert.alert("로그인 오류", apiResult.error.msg);
+				else{
+					setTaskList(Object.keys(apiResult.data).map(key=>({...apiResult.data[key], _id:key})));
+				}
+			});
+	},[])
 
 	const onPressTaskListItem=()=>{
-
 	}
-
 
 	const renderItem = ({ item })=>{
 		return (
 			<TouchableOpacity style={styles.taskListItem} onPress={onPressTaskListItem}>
-				<Text style={styles.taskListItemText}>{item.title}</Text>
+				<Text style={styles.taskListItemText}>{item.content}</Text>
 			</TouchableOpacity>
 		);
 	}
 
+	
+	const scrollY = useRef(new Animated.Value(1)).current;
+	const taskListTitleOpacity = scrollY.interpolate({
+		inputRange: [10, 25, 40],
+		outputRange: [1, 0.2, 0],
+		extrapolate: 'clamp',
+	})
+	const handleTaskListScroll = (e)=>{
+		scrollY.setValue(e.nativeEvent.contentOffset.y);
+	}
+
 	return(
 		<Container hasBack={true} hasBackNoPadding={true} {...props} style={styles.container}>
+			<Animated.Text style={{...styles.taskListTitle, opacity:taskListTitleOpacity,}}>{folderData.title}</Animated.Text>
+			
 			<FlatList
 				style={styles.taskList}
 				contentContainerStyle={styles.taskListContainer}
-				data={data}
+				data={taskList}
 				renderItem={renderItem}
 				keyExtractor={item=>item.id}
+				onScroll={handleTaskListScroll}
 			/>
 		</Container>
 	)
@@ -48,19 +60,26 @@ const TaskListScreen = (props)=>{
 
 const styles = StyleSheet.create({
 	container:{
-		backgroundColor:'#aaa',
+		backgroundColor:'#fff',
 		flex:1,
+	},
+	taskListTitle:{
+		position:'absolute',
+		height:60,
+		top:0,
+		width:'100%',
+		textAlign:'center',
+		textAlignVertical:'center',
+		fontSize:18,
+		fontWeight:'bold',
 	},
 	taskList:{
 		flex:1,
 	},
 	taskListContainer:{
-		backgroundColor:'#fff',
-		borderTopLeftRadius:15,
-		borderTopRightRadius:15,
-		padding:15,
 		marginHorizontal:10,
-		marginTop:100,
+		padding:15,
+		paddingTop:60,
 	},
 	taskListItem:{
 		padding:10,

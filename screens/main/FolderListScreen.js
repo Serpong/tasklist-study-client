@@ -1,39 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { Container } from '../../components/layout/Components';
 
+import Apis from '../../utils/Apis';
+
+import { useDispatch } from 'react-redux';
+import { func1 } from '../../reducers/testReducer';
+
 
 const FolderListScreen = (props)=>{
 	const {navigation} = props;
-	const data = [
-		{id:1, title:"title", writer:"me"},
-		{id:2, title:"asdf", writer:"hongkildong"},
-		{id:3, title:"ssss", writer:"heller"},
-		{id:4, title:"fdg33", writer:"Lee"},
-		{id:6, title:"sa", writer:"Kim"},
-		{id:7, title:"title", writer:"hongkildong"},
-	];
+	
+	const [folderList, setFolderList] = useState([]);
+	
+	const dispatch = useDispatch();
+	
+	console.log(333, dispatch(func1(123)));
 
-	const onPressFolderListItem = ()=>{
-		navigation.navigate('taskList');
+	useEffect(() => {
+		Apis.getFolderList()
+			.then(apiResult=>{
+				if(apiResult.error)
+					Alert.alert("로그인 오류", apiResult.error.msg);
+				else{
+					setFolderList(Object.keys(apiResult.data).map(key=>({...apiResult.data[key], _id:key})));
+				}
+			})
+			.catch(err=>{
+				console.log('error: ', err);
+			});
+	}, [])
+	
+
+	const onPressFolderListItem = (folderData)=>()=>{
+		navigation.push('taskList', {folderData});
 	};
 
-	const renderItem = ({ item })=>{
-		return (
-			<TouchableOpacity style={styles.folderListItem} onPress={onPressFolderListItem}>
-				<Text style={styles.folderListItemText}>{item.title}</Text>
-			</TouchableOpacity>
-		);
-	}
+	const renderItem = ({ item })=>(
+		<TouchableOpacity style={styles.folderListItem} onPress={onPressFolderListItem(item)}>
+			<Text style={styles.folderListItemText}>{item.title}</Text>
+		</TouchableOpacity>
+	)
 
 	return(
 		<Container {...props} style={styles.container}>
 			<FlatList
 				style={styles.folderList}
-				data={data}
+				contentContainerStyle={styles.folderListContainer}
+				data={folderList}
 				renderItem={renderItem}
-				keyExtractor={item=>item.id}
+				keyExtractor={item=>item._id}
 			/>
 		</Container>
 	)
@@ -46,16 +63,19 @@ const styles = StyleSheet.create({
 	},
 	folderList:{
 		flex:1,
-		paddingHorizontal:15,
+	},
+	folderListContainer:{
+		padding:15,
 	},
 	folderListItem:{
-		backgroundColor: '#50a14f',
+		backgroundColor: '#ddd',
 		padding:5,
 		paddingVertical:70,
 		marginVertical:10,
 	},
 	folderListItemText:{
-		color:'#fff',
+		textAlign:'center',
+		color:'#000',
 	}
 });
 

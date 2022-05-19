@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 
-const API_HOST = "http://172.27.16.1:3000";
+const API_HOST = "http://172.30.98.57:3000";
 
 const apiRequest = async (path, method, data)=>{
 	let result = {};
@@ -33,7 +33,13 @@ const Apis = {
 	},
 	loginCheck: async ()=>{
 		return await apiRequest("/auth/login-check", "get");
-	}
+	},
+	getFolderList: async ()=>{
+		return await apiRequest("/folder", "get");
+	},
+	getTaskList: async ({folder_id})=>{
+		return await apiRequest(`/folder/${folder_id}/tasks`, "get");
+	},
 }
 
 export default Apis;
