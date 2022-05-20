@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
 
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { Container } from '../../components/layout/Components';
 
 import Apis from '../../utils/Apis';
 
-import { useDispatch } from 'react-redux';
-import { func1 } from '../../reducers/testReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { modalNew, modalRemove } from '../../reducers/modalReducer';
+import ModalYesNo from '../../components/layout/modal/ModalYesNo';
 
 
 const FolderListScreen = (props)=>{
 	const {navigation} = props;
+
+	const dispatch = useDispatch();
 	
 	const [folderList, setFolderList] = useState([]);
 	
-	const dispatch = useDispatch();
 	
-	console.log(333, dispatch(func1(123)));
-
 	useEffect(() => {
 		Apis.getFolderList()
 			.then(apiResult=>{
 				if(apiResult.error)
-					Alert.alert("로그인 오류", apiResult.error.msg);
+					Alert.alert("오류", apiResult.error.msg);
 				else{
 					setFolderList(Object.keys(apiResult.data).map(key=>({...apiResult.data[key], _id:key})));
 				}
@@ -37,10 +37,42 @@ const FolderListScreen = (props)=>{
 		navigation.push('taskList', {folderData});
 	};
 
+	// const a = useSelector(state=>state.modalReducer);
+	// console.log(a);
+
+	const addFolderHandler = ()=>{
+
+
+		const {modalKey} = dispatch(modalNew({
+			WrapperElement: ModalYesNo,
+			wrapperProps:{
+				onPressYes:()=>{
+					console.log("pressed yes");
+				},
+			},
+			InnerElement:(
+				<>
+					<Text>내용임당</Text>
+				</>
+			),
+			headerTitle:"모달 제목임"
+		}));
+
+		
+	}
+
+
 	const renderItem = ({ item })=>(
-		<TouchableOpacity style={styles.folderListItem} onPress={onPressFolderListItem(item)}>
-			<Text style={styles.folderListItemText}>{item.title}</Text>
-		</TouchableOpacity>
+		(item._id=='btnAddFolder')?(
+			<TouchableOpacity style={styles.folderListItem} onPress={addFolderHandler}>
+				<Text style={styles.folderListItemText}>{item.title}</Text>
+			</TouchableOpacity>
+		):(
+			<TouchableOpacity style={styles.folderListItem} onPress={onPressFolderListItem(item)}>
+				<Text style={styles.folderListItemText}>{item.title}</Text>
+			</TouchableOpacity>
+		)
+		
 	)
 
 	return(
@@ -48,13 +80,15 @@ const FolderListScreen = (props)=>{
 			<FlatList
 				style={styles.folderList}
 				contentContainerStyle={styles.folderListContainer}
-				data={folderList}
+				data={[...folderList, {_id:'btnAddFolder', title:"폴더 추가"}]}
 				renderItem={renderItem}
 				keyExtractor={item=>item._id}
 			/>
 		</Container>
 	)
 }
+
+
 
 const styles = StyleSheet.create({
 	container:{

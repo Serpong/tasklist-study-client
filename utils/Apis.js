@@ -1,20 +1,22 @@
 import React from 'react'
 import axios from 'axios';
 
-const API_HOST = "http://172.30.98.57:3000";
+const API_HOST = "http://192.168.0.3:3000";
 
 const apiRequest = async (path, method, data)=>{
 	let result = {};
 	await axios({
 		method	: method,
 		url		: API_HOST+path,
-		data	: data
+		data	: data,
+		timeout : 1000,
 	})
 	.then(response=>{
 		result = response.data;
 		result.error = false;
 	})
 	.catch(error=>{
+		console.log('api error', error.response);
 		result = {error: error.response.data.error??{msg:"비정상적인 오류입니다."}};
 	});
 

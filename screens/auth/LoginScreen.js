@@ -15,8 +15,8 @@ const LoginScreen = (props)=>{
 	const { navigation } = props;
 
 	const loginInputs = useInputs({
-		userId:"",
-		userPass:"",
+		userId:"admin",
+		userPass:"thisispass2",
 	})
 
 	const onLogin = async ()=>{

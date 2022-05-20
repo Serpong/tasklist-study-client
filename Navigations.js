@@ -6,6 +6,8 @@ import MainNavigator from "./navigators/MainNavigator";
 import { useDispatch, useSelector } from 'react-redux';
 import Apis from './utils/Apis';
 import { userSetLogin, userSetLogout } from './reducers/userReducer';
+import { modalRemove } from './reducers/modalReducer';
+import ModalRoot from './components/layout/modal/ModalRoot';
 
 
 const Navigations = ()=>{
@@ -28,9 +30,12 @@ const Navigations = ()=>{
 	const {isLoggedIn} = useSelector(state=>state.userReducer);
 	
 	return (
-		<NavigationContainer>
-			{ !isLoggedIn ? <AuthNavigator /> : <MainNavigator/> }
-		</NavigationContainer>
+		<>
+			<NavigationContainer>
+				{ !isLoggedIn ? <AuthNavigator /> : <MainNavigator/> }
+			</NavigationContainer>
+			<ModalRoot />
+		</>
 	);
 }
 
