@@ -2,12 +2,12 @@ import { combineReducers } from "redux";
 
 import userReducer from './userReducer';
 import testReducer from './testReducer';
-import modalReducer from './modalReducer';
+// import modalReducer from './modalReducer';
 
 const allReducers = combineReducers({
 	userReducer,
 	testReducer,
-	modalReducer, 
+	// modalReducer, 
 });
 
 export default allReducers;

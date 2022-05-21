@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import { Alert, View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { Container } from '../../components/layout/Components';
+import { Container, InputPrimary } from '../../components/layout/Components';
 
 import Apis from '../../utils/Apis';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { modalNew, modalRemove } from '../../reducers/modalReducer';
-import ModalYesNo from '../../components/layout/modal/ModalYesNo';
-
+// import { modalNew, modalRemove } from '../../reducers/modalReducer';
+import Modal from '../../components/layout/Modal';
+import { useInputs } from '../../utils/componentUtils';
 
 const FolderListScreen = (props)=>{
 	const {navigation} = props;
@@ -16,7 +16,6 @@ const FolderListScreen = (props)=>{
 	const dispatch = useDispatch();
 	
 	const [folderList, setFolderList] = useState([]);
-	
 	
 	useEffect(() => {
 		Apis.getFolderList()
@@ -33,32 +32,23 @@ const FolderListScreen = (props)=>{
 	}, [])
 	
 
+
 	const onPressFolderListItem = (folderData)=>()=>{
 		navigation.push('taskList', {folderData});
 	};
+	
+	
+	
+	
+	const modalInputs = useInputs({
+		folderName:"",
+	});
 
-	// const a = useSelector(state=>state.modalReducer);
-	// console.log(a);
+	const [showAddFolderModal, setShowAddFolderModal] = useState(false);
 
 	const addFolderHandler = ()=>{
-
-
-		const {modalKey} = dispatch(modalNew({
-			WrapperElement: ModalYesNo,
-			wrapperProps:{
-				onPressYes:()=>{
-					console.log("pressed yes");
-				},
-			},
-			InnerElement:(
-				<>
-					<Text>내용임당</Text>
-				</>
-			),
-			headerTitle:"모달 제목임"
-		}));
-
-		
+		setShowAddFolderModal(true);
+		modalInputs.setInput('folderName', '');
 	}
 
 
@@ -77,6 +67,26 @@ const FolderListScreen = (props)=>{
 
 	return(
 		<Container {...props} style={styles.container}>
+			<Modal
+				wrapperType="YesNo"
+				wrapperProps={{
+					onPressYes:()=>{
+						console.log('pressedYes', modalInputs.folderName);
+						setShowAddFolderModal(false);
+					},
+					YesTitle:"추가",
+				}}
+				headerTitle="모달 제목임"
+				showModal={showAddFolderModal}
+				setShowModal={setShowAddFolderModal}
+			>
+				<InputPrimary
+					placeholder='폴더 명'
+					{...modalInputs.inputProps('folderName')}
+				/>
+				<Text>내용임당</Text>
+			</Modal>
+			
 			<FlatList
 				style={styles.folderList}
 				contentContainerStyle={styles.folderListContainer}

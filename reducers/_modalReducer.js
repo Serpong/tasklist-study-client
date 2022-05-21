@@ -24,7 +24,7 @@ export const modalNew = ({WrapperElement, wrapperProps, InnerElement, headerTitl
 		element:({onModalCancel, ...props})=>(
 			<ModalContainer headerTitle={headerTitle}>
 				<WrapperElement {...wrapperProps} onModalCancel={onModalCancel}>
-					{InnerElement}
+					<InnerElement />
 				</WrapperElement>
 			</ModalContainer>
 		)

@@ -5,6 +5,7 @@ export const useInputs = (initialState)=>{
 	const [inputs, setInputs] = useState(initialState);
 
 	const setInput = (name, value)=>{
+		// console.log("set called", name, value);
 		setInputs({
 			...inputs,
 			[name]: value
@@ -16,7 +17,7 @@ export const useInputs = (initialState)=>{
 		onChangeText: (val)=>{setInput(name, val)}
 	});
 
-	const get = (name)=>inputs[name];
+	const get = (name)=>{ return inputs[name];};
 
 	return {
 		inputProps,

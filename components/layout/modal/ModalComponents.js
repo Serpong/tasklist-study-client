@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, } from 'react-native';
 
-const ModalBottom = ({style, ...props})=>{
+const ModalBottom = ({style, children, ...props})=>{
 	return (
 		<>
 			<View style={[styles.modalBottom, style]}>
-				{props.children}
+				{children}
 			</View>
 		</>
 	)

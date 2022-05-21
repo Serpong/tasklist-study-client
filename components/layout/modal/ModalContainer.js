@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, View, Text, } from 'react-native';
 
-const ModalContainer = (props)=>{
+const ModalContainer = ({headerTitle, children,...props})=>{
 	
 	return (
 		<View style={styles.modalContainer}>
 			<View style={styles.modalWrapper}>
-				{props.headerTitle&&<Text style={styles.modalHeader}>{props.headerTitle}</Text>}
+				{headerTitle&&<Text style={styles.modalHeader}>{headerTitle}</Text>}
 				<View style={styles.modalContent}>
-					{props.children}
+					{children}
 				</View>
 
 			</View>
