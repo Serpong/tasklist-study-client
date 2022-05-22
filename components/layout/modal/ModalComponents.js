@@ -24,20 +24,30 @@ const ModalBottomSpacer = ({style, ...props})=>(
 const styles = StyleSheet.create({
 	modalBottom:{
 		flexDirection:'row',
-		borderTopWidth:1,
-		borderTopColor:'#eee'
+		minHeight:60,
+		alignItems:'center',
+		justifyContent:'flex-end',
+		paddingHorizontal:15,
 	},
 	modalBottomSpacer:{
 		width:1,
 		backgroundColor:'#eee',
 	},
 	modalBottomButton:{
-		flex:1,
+		minWidth:50,
+		borderRadius:50,
+		// borderWidth:1,
+		borderColor:'#eee',
+		marginRight:5,
+		paddingVertical:7,
+		paddingHorizontal:15,
 	},
 	modalBottomButtonText:{
+		fontSize:11,
+		fontWeight:'bold',
+		color:'#ff0545',
 		textAlign:'center',
 		textAlignVertical:'center',
-		paddingVertical:10,
 	}
 });
 

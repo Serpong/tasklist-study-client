@@ -1,60 +1,76 @@
 import React, { useEffect, useState } from 'react';
 
 import { Alert, View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { Container, InputPrimary } from '../../components/layout/Components';
+import { ImagePicker, Container, InputCircle, InputPrimary } from '../../components/layout/Components';
 
 import Apis from '../../utils/Apis';
 
-import { useDispatch, useSelector } from 'react-redux';
-// import { modalNew, modalRemove } from '../../reducers/modalReducer';
 import Modal from '../../components/layout/Modal';
+
 import { useInputs } from '../../utils/componentUtils';
+
+
+
+
+const Jobs = {
+	loadFolderList: async (setFolderList)=>{
+		const apiResult = await Apis.getFolderList();
+		if(apiResult.error) return Alert.alert("오류", apiResult.error.msg);
+		setFolderList(Object.keys(apiResult.data).map(key=>({...apiResult.data[key], _id:key})));
+	},
+	insertFolder: async (setFolderList, data)=>{
+		const apiResult = await Apis.insertFolder(data);
+		if(apiResult.error) return Alert.alert("오류", apiResult.error.msg);
+		// todo 이거 주석해제
+		// setFolderList(folderList=>([...folderList, apiResult.data]));
+	},
+}
 
 const FolderListScreen = (props)=>{
 	const {navigation} = props;
-
-	const dispatch = useDispatch();
 	
 	const [folderList, setFolderList] = useState([]);
-	
-	useEffect(() => {
-		Apis.getFolderList()
-			.then(apiResult=>{
-				if(apiResult.error)
-					Alert.alert("오류", apiResult.error.msg);
-				else{
-					setFolderList(Object.keys(apiResult.data).map(key=>({...apiResult.data[key], _id:key})));
-				}
-			})
-			.catch(err=>{
-				console.log('error: ', err);
-			});
-	}, [])
-	
 
+	const [showAddFolderModal, setShowAddFolderModal] = useState(false);
 
-	const onPressFolderListItem = (folderData)=>()=>{
-		navigation.push('taskList', {folderData});
-	};
-	
-	
-	
+	const [folderUploadImage, setFolderUploadImage] = useState({});
 	
 	const modalInputs = useInputs({
 		folderName:"",
 	});
 
-	const [showAddFolderModal, setShowAddFolderModal] = useState(false);
+	useEffect(() => {
+		Jobs.loadFolderList(setFolderList);
+	}, [])
 
-	const addFolderHandler = ()=>{
+	const onPressFolderListItem = (folderData)=>()=>{
+		navigation.push('taskList', {folderData});
+	};
+
+	const onPressAddFolder = async ()=>{
 		setShowAddFolderModal(true);
 		modalInputs.setInput('folderName', '');
+		// console.log(result);
 	}
+	const onPressInsertFolder = async ()=>{
+		console.log('start api ', modalInputs.folderName);
 
+		await Jobs.insertFolder(setFolderList, {
+			folderName			: modalInputs.folderName,
+			folderDescription	: '',
+			folderThumb			: (folderUploadImage.fileName?{
+				name	: folderUploadImage.fileName,
+				type	: folderUploadImage.type, 
+				uri		: folderUploadImage.uri,
+			}:{}),
+		});
+
+		setShowAddFolderModal(false);
+	}
 
 	const renderItem = ({ item })=>(
 		(item._id=='btnAddFolder')?(
-			<TouchableOpacity style={styles.folderListItem} onPress={addFolderHandler}>
+			<TouchableOpacity style={styles.folderListItem} onPress={onPressAddFolder}>
 				<Text style={styles.folderListItemText}>{item.title}</Text>
 			</TouchableOpacity>
 		):(
@@ -62,29 +78,29 @@ const FolderListScreen = (props)=>{
 				<Text style={styles.folderListItemText}>{item.title}</Text>
 			</TouchableOpacity>
 		)
-		
 	)
+
+
 
 	return(
 		<Container {...props} style={styles.container}>
 			<Modal
 				wrapperType="YesNo"
 				wrapperProps={{
-					onPressYes:()=>{
-						console.log('pressedYes', modalInputs.folderName);
-						setShowAddFolderModal(false);
-					},
+					onPressYes: onPressInsertFolder,
 					YesTitle:"추가",
 				}}
-				headerTitle="모달 제목임"
+				headerTitle="폴더 추가"
 				showModal={showAddFolderModal}
 				setShowModal={setShowAddFolderModal}
 			>
-				<InputPrimary
-					placeholder='폴더 명'
-					{...modalInputs.inputProps('folderName')}
-				/>
-				<Text>내용임당</Text>
+				<View style={{paddingHorizontal:20,}}>
+					<InputCircle
+						placeholder='폴더 명'
+						{...modalInputs.inputProps('folderName')}
+					/>
+					<ImagePicker.camera assets={folderUploadImage} setAssets={setFolderUploadImage} />
+				</View>
 			</Modal>
 			
 			<FlatList

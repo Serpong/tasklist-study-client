@@ -15,20 +15,20 @@ const Navigations = ()=>{
 	const dispatch = useDispatch();
 
 	//login check
-	// useEffect(()=>{
-	// 	(async ()=>{
-	// 		const loginCheckResult = await Apis.loginCheck();
-	// 		if(loginCheckResult.error || loginCheckResult.data.isLoggedIn == false)
-	// 			dispatch(userSetLogout());
-	// 		else
-	// 			dispatch(userSetLogin());
-	// 		console.log("로그인 체크");
-	// 	})();
-	// }, []);
+	useEffect(()=>{
+		(async ()=>{
+			const loginCheckResult = await Apis.loginCheck();
+			if(loginCheckResult.error || loginCheckResult.data.isLoggedIn == false)
+				dispatch(userSetLogout());
+			else
+				dispatch(userSetLogin());
+			console.log("로그인 체크");
+		})();
+	}, []);
 
 
-	// const {isLoggedIn} = useSelector(state=>state.userReducer);
-	const isLoggedIn = true;
+	const {isLoggedIn} = useSelector(state=>state.userReducer);
+	// const isLoggedIn = true;
 	
 	return (
 		<>

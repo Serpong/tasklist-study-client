@@ -7,9 +7,9 @@ const YesNo = ({hideModal, onPressYes, onPressNo, YesTitle, NoTitle, ...props})=
 		<>
 			{props.children}
 			<ModalBottom style={styles.modalBottom}>
-				<ModalBottomButton style={styles.ButtonYes} onPress={onPressYes} title={YesTitle??"수락"} />
+				<ModalBottomButton style={styles.ButtonSecondary} textStyle={styles.ButtonSecondaryText} onPress={onPressNo ?? hideModal} title={NoTitle??"취소"} />
 				<ModalBottomSpacer />
-				<ModalBottomButton style={styles.ButtonNo} onPress={onPressNo ?? hideModal} title={NoTitle??"취소"} />
+				<ModalBottomButton style={styles.ButtonPrimary} textStyle={styles.ButtonPrimaryText} onPress={onPressYes} title={YesTitle??"수락"} />
 			</ModalBottom>
 		</>
 	)
@@ -19,7 +19,7 @@ const Ok = ({hideModal, onPressOk, okTitle, ...props})=>{
 		<>
 			{props.children}
 			<ModalBottom style={styles.modalBottom}>
-				<ModalBottomButton style={styles.ButtonOk} onPress={onPressOk ?? hideModal} title={OkTitle??"확인"} />
+				<ModalBottomButton style={styles.ButtonPrimary} textStyle={styles.ButtonPrimaryText} onPress={onPressOk ?? hideModal} title={OkTitle??"확인"} />
 			</ModalBottom>
 		</>
 	)
@@ -27,16 +27,13 @@ const Ok = ({hideModal, onPressOk, okTitle, ...props})=>{
 
 const styles = StyleSheet.create({
 	modalBottom:{
-		flexDirection:'row',
-		borderTopWidth:1,
-		borderTopColor:'#eee'
+		// borderTopWidth:1,
+		// borderTopColor:'#eee'
 	},
-	ButtonYes:{
-	},
-	ButtonNo:{
-	},
-	ButtonOk:{
-	},
+	ButtonPrimary:{ backgroundColor:'#ff0545', },
+	ButtonPrimaryText:{ color:'#fff', },
+	ButtonSecondary:{  },
+	ButtonSecondaryText:{  },
 });
 
 export default { YesNo, Ok, };
