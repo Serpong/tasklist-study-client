@@ -1,35 +1,53 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 import { Alert, Animated, View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { Container } from '../../components/layout/Components';
+import { BtnPrimary, Container, InputCircle, InputPrimary } from '../../components/layout/Components';
 import Apis from '../../utils/Apis';
 
+import Icons from 'react-native-vector-icons/Ionicons';
+import { useInputs } from '../../utils/componentUtils';
+
+const Jobs = {
+	loadTaskList : async (setTaskList, folder_id)=>{
+		const apiResult = await Apis.getTaskList({folder_id});
+		if(apiResult.error){
+			Alert.alert("오류", apiResult.error.msg);
+			return false;
+		}
+		setTaskList(Object.keys(apiResult.data).map(key=>(apiResult.data[key])));
+		return true;
+	},
+	insertTaskList: async (setTaskList, content, folder_id )=>{
+		const apiResult = await Apis.insertTask({ content, folder_id, });
+		if(apiResult.error){
+			Alert.alert("오류", apiResult.error.msg);
+			return false;
+		}
+		setTaskList(taskList=>[...taskList, apiResult.data]);
+		return true;
+	},
+}
 
 const TaskListScreen = (props)=>{
 	const [taskList, setTaskList] = useState([]);
 	const {route:{params:{folderData}}} = props;
 
 	useEffect(()=>{
-		Apis.getTaskList({folder_id:props.route.params.folderData._id})
-			.then(apiResult=>{
-				if(apiResult.error)
-					Alert.alert("로그인 오류", apiResult.error.msg);
-				else{
-					setTaskList(Object.keys(apiResult.data).map(key=>({...apiResult.data[key], _id:key})));
-				}
-			});
+		Jobs.loadTaskList(setTaskList, props.route.params.folderData._id);
 	},[])
+
+	const taskAddInputs = useInputs({
+		content:'',
+	});
 
 	const onPressTaskListItem=()=>{
 	}
-
-	const renderItem = ({ item })=>{
-		return (
-			<TouchableOpacity style={styles.taskListItem} onPress={onPressTaskListItem}>
-				<Text style={styles.taskListItemText}>{item.content}</Text>
-			</TouchableOpacity>
-		);
+	const onPressTaskAdd = async ()=>{
+		const addResult = await Jobs.insertTaskList(setTaskList, taskAddInputs.content, folderData._id);
+		if(addResult) 
+			taskAddInputs.setInput('content', '');
 	}
+
 
 	
 	const scrollY = useRef(new Animated.Value(1)).current;
@@ -42,6 +60,14 @@ const TaskListScreen = (props)=>{
 		scrollY.setValue(e.nativeEvent.contentOffset.y);
 	}
 
+
+	const renderItem = ({ item })=>{
+		return (
+			<TouchableOpacity style={styles.taskListItem} onPress={onPressTaskListItem}>
+				<Text style={styles.taskListItemText}>{item.content}</Text>
+			</TouchableOpacity>
+		);
+	}
 	return(
 		<Container hasBack={true} hasBackNoPadding={true} {...props} style={styles.container}>
 			<Animated.Text style={{...styles.taskListTitle, opacity:taskListTitleOpacity,}}>{folderData.title}</Animated.Text>
@@ -51,9 +77,13 @@ const TaskListScreen = (props)=>{
 				contentContainerStyle={styles.taskListContainer}
 				data={taskList}
 				renderItem={renderItem}
-				keyExtractor={item=>item.id}
+				keyExtractor={item=>item._id}
 				onScroll={handleTaskListScroll}
 			/>
+			<View style={styles.taskAddContainer}>
+				<InputCircle placeholder="새 태스크" style={styles.taskAddInput} {...taskAddInputs.inputProps('content')} />
+				<TouchableOpacity onPress={onPressTaskAdd} style={styles.taskAddButton}><Icons name="chevron-forward-outline" size={20} style={styles.taskAddButtonIcon}/></TouchableOpacity>
+			</View>
 		</Container>
 	)
 }
@@ -90,6 +120,28 @@ const styles = StyleSheet.create({
 	taskListItemText:{
 		color:'#fff',
 	},
+
+	taskAddContainer:{
+		flexDirection:'row',
+		width:'100%',
+		padding:15,
+		alignItems:'center',
+	},
+	taskAddInput:{
+		flex:1,
+		paddingVertical:5,
+	},
+	taskAddButton:{
+		marginLeft:15,
+	},
+	taskAddButtonIcon:{
+		height:30,
+		width:30,
+		backgroundColor:'#ddd',
+		textAlign:'center',
+		textAlignVertical:'center',
+		borderRadius:30,
+	}
 });
 
 export default TaskListScreen;

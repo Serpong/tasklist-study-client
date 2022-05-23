@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Alert, View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, StyleSheet, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import { ImagePicker, Container, InputCircle, InputPrimary } from '../../components/layout/Components';
 
 import Apis from '../../utils/Apis';
@@ -21,8 +21,7 @@ const Jobs = {
 	insertFolder: async (setFolderList, data)=>{
 		const apiResult = await Apis.insertFolder(data);
 		if(apiResult.error) return Alert.alert("오류", apiResult.error.msg);
-		// todo 이거 주석해제
-		// setFolderList(folderList=>([...folderList, apiResult.data]));
+		setFolderList(folderList=>([...folderList, apiResult.data]));
 	},
 }
 
@@ -49,11 +48,10 @@ const FolderListScreen = (props)=>{
 
 	const onPressAddFolder = async ()=>{
 		setShowAddFolderModal(true);
-		modalInputs.setInput('folderName', '');
+		modalInputs.setInput('folderName', 'testst');
 		// console.log(result);
 	}
 	const onPressInsertFolder = async ()=>{
-		console.log('start api ', modalInputs.folderName);
 
 		await Jobs.insertFolder(setFolderList, {
 			folderName			: modalInputs.folderName,
@@ -70,12 +68,14 @@ const FolderListScreen = (props)=>{
 
 	const renderItem = ({ item })=>(
 		(item._id=='btnAddFolder')?(
-			<TouchableOpacity style={styles.folderListItem} onPress={onPressAddFolder}>
+			<TouchableOpacity style={[styles.folderListItem, styles.folderListItemBg]} onPress={onPressAddFolder}>
 				<Text style={styles.folderListItemText}>{item.title}</Text>
 			</TouchableOpacity>
 		):(
 			<TouchableOpacity style={styles.folderListItem} onPress={onPressFolderListItem(item)}>
-				<Text style={styles.folderListItemText}>{item.title}</Text>
+				{<ImageBackground source={{uri:Apis.API_HOST+item.thumbUrl}} style={styles.folderListItemBg}>
+					<Text style={styles.folderListItemText}>{item.title}</Text>
+				</ImageBackground>}
 			</TouchableOpacity>
 		)
 	)
@@ -88,7 +88,7 @@ const FolderListScreen = (props)=>{
 				wrapperType="YesNo"
 				wrapperProps={{
 					onPressYes: onPressInsertFolder,
-					YesTitle:"추가",
+					YesTitle:"추가",	
 				}}
 				headerTitle="폴더 추가"
 				showModal={showAddFolderModal}
@@ -106,7 +106,7 @@ const FolderListScreen = (props)=>{
 			<FlatList
 				style={styles.folderList}
 				contentContainerStyle={styles.folderListContainer}
-				data={[...folderList, {_id:'btnAddFolder', title:"폴더 추가"}]}
+				data={[...folderList, {_id:'btnAddFolder', title:"폴더 추가"}]}//todo 폴더추가를 아래로
 				renderItem={renderItem}
 				keyExtractor={item=>item._id}
 			/>
@@ -129,9 +129,13 @@ const styles = StyleSheet.create({
 	},
 	folderListItem:{
 		backgroundColor: '#ddd',
+		marginVertical:10,
+		elevation:10,
+	},
+	folderListItemBg:{
+		flex:1,
 		padding:5,
 		paddingVertical:70,
-		marginVertical:10,
 	},
 	folderListItemText:{
 		textAlign:'center',
