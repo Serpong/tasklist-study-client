@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios';
 import FormData from 'form-data';
 
-const API_HOST = "http://172.30.40.35:3000";
+const API_HOST = "http://192.168.0.3:3000";
 
 
 const apiRequester = async({ path, method, data, headers,  })=>{
@@ -74,11 +74,13 @@ const Apis = {
 	insertTask: async ({content, folder_id})=>{
 		return await apiRequest("/task", "post", {content, folder_id});
 	},
+	editTask: async ({content, task_id})=>{
+		return await apiRequest(`/task/${task_id}`, "post", {content});
+	},
 	insertFolder: async ({folderName:title, folderDescription:description, folderThumb:thumb})=>{
 		let params = {title,description, };
 		if(Object.keys(thumb).length)
 			params.thumb = thumb;
-		console.log('thumb params', params.thumb);
 		return await apiRequest("/folder", "post", params, true);
 	},
 }
