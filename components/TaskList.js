@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import {StyleSheet, FlatList, TouchableOpacity, Text, Alert, } from 'react-native';
+import {StyleSheet, FlatList, Text, Alert, } from 'react-native';
+import { PanGestureHandler, TouchableOpacity } from 'react-native-gesture-handler';
 import Apis from '../utils/Apis';
+import Animated, {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, interpolateColor} from 'react-native-reanimated';
 
 const Jobs = {
 	loadTaskList : async (setTaskList, folder_id, setRefreshing)=>{
@@ -16,7 +18,46 @@ const Jobs = {
 		return true;
 	},
 }
+const Item = ({onPressTaskListItem, item, ...props})=>{
+	const _touchX = useSharedValue(0);
+	// const _threshX = 720 / 4;
+	
+	const animatedStyle = useAnimatedStyle(()=>{
+		return {
+			transform:[{
+				translateX: _touchX.value, //withSpring(_touchX.value, {damping:300}),
+			}],
+			backgroundColor:interpolateColor(
+				Math.abs(_touchX.value),
+				[30,100],
+				['#fff', '#f77'],
+			)
+		};
+	});
+
+	const onItemPanGesture = useAnimatedGestureHandler({
+		onStart:()=>{
+		},
+		onActive:(e)=>{
+			_touchX.value = e.translationX ?? 0;
+		},
+		onEnd:()=>{
+			_touchX.value = 0;
+		}
+	})
+	
+	return (
+		<PanGestureHandler onGestureEvent={onItemPanGesture} activeOffsetX={[-5, 5]} >
+			<Animated.View style={[styles.taskListItem, animatedStyle]}>
+				<TouchableOpacity onPress={onPressTaskListItem} style={styles.taskListItemInner}>
+					<Text style={styles.taskListItemText}>{item.content}</Text>
+				</TouchableOpacity>
+			</Animated.View>
+		</PanGestureHandler>
+	);
+}
 const TaskList = ({taskList, setTaskList, folder_id, handleTaskListScroll, showEditTask, ...props})=>{
+
 	
 	const [refreshing, setRefreshing] = useState(true);
 
@@ -29,11 +70,7 @@ const TaskList = ({taskList, setTaskList, folder_id, handleTaskListScroll, showE
 		showEditTask(_id);
 	}
 	const renderItem = ({ item })=>{
-		return (
-			<TouchableOpacity style={styles.taskListItem} onPress={onPressTaskListItem(item._id)}>
-				<Text style={styles.taskListItemText}>{item.content}</Text>
-			</TouchableOpacity>
-		);
+		return <Item item={item} onPressTaskListItem={onPressTaskListItem(item._id)} />
 	}
 
 	return (
@@ -62,8 +99,6 @@ const styles = StyleSheet.create({
 		paddingTop:60,
 	},
 	taskListItem:{
-		padding:15,
-		paddingHorizontal:15,
 		backgroundColor:'#fff',
 		borderWidth:1,
 		borderColor:'#eee',
@@ -71,6 +106,10 @@ const styles = StyleSheet.create({
 		borderRadius:5,
 		elevation:7,
 		shadowColor:'#777',
+	},
+	taskListItemInner:{
+		flex:1,
+		padding:15,
 	},
 	taskListItemText:{
 		color:'#000',
