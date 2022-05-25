@@ -2,7 +2,7 @@ import React from 'react';
 
 import Icons from 'react-native-vector-icons/Ionicons';
 
-import {StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useInputs } from '../utils/componentUtils';
 import { InputCircle } from './layout/Components';
 import Apis from '../utils/Apis';
@@ -19,7 +19,7 @@ const Jobs = {
 	},
 }
 
-const TaskListAdd = ({taskList, setTaskList, folder_id, ...props})=>{
+const TaskAdd = ({taskList, setTaskList, folder_id, ...props})=>{
 	
 
 	const taskAddInputs = useInputs({
@@ -66,4 +66,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default TaskListAdd;
+export default TaskAdd;

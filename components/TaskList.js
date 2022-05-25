@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import {StyleSheet, FlatList, TouchableOpacity, Text, } from 'react-native';
+import {StyleSheet, FlatList, TouchableOpacity, Text, Alert, } from 'react-native';
 import Apis from '../utils/Apis';
 
 const Jobs = {
