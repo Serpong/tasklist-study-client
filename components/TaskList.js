@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {StyleSheet, FlatList, Text, Alert, } from 'react-native';
 import { PanGestureHandler, TouchableOpacity } from 'react-native-gesture-handler';
 import Apis from '../utils/Apis';
-import Animated, {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, interpolateColor} from 'react-native-reanimated';
+import Animated, {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, interpolateColor, withTiming} from 'react-native-reanimated';
 
 const Jobs = {
 	loadTaskList : async (setTaskList, folder_id, setRefreshing)=>{
@@ -25,7 +25,7 @@ const Item = ({onPressTaskListItem, item, ...props})=>{
 	const animatedStyle = useAnimatedStyle(()=>{
 		return {
 			transform:[{
-				translateX: _touchX.value, //withSpring(_touchX.value, {damping:300}),
+				translateX: _touchX.value,
 			}],
 			backgroundColor:interpolateColor(
 				Math.abs(_touchX.value),
@@ -42,7 +42,7 @@ const Item = ({onPressTaskListItem, item, ...props})=>{
 			_touchX.value = e.translationX ?? 0;
 		},
 		onEnd:()=>{
-			_touchX.value = 0;
+			_touchX.value = withTiming(0);
 		}
 	})
 	
@@ -94,15 +94,15 @@ const styles = StyleSheet.create({
 		flex:1,
 	},
 	taskListContainer:{
-		marginHorizontal:10,
 		padding:15,
 		paddingTop:60,
 	},
 	taskListItem:{
+		marginHorizontal:10,
 		backgroundColor:'#fff',
 		borderWidth:1,
 		borderColor:'#eee',
-		marginVertical:10,
+		marginVertical:7,
 		borderRadius:5,
 		elevation:7,
 		shadowColor:'#777',
