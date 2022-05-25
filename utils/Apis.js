@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios';
 import FormData from 'form-data';
 
-const API_HOST = "http://192.168.0.3:3000";
+const API_HOST = "http://172.30.98.99:3000";
 
 
 const apiRequester = async({ path, method, data, headers,  })=>{

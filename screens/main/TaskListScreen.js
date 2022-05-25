@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import { Alert, Animated, View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { BtnPrimary, Container, InputCircle, InputPrimary } from '../../components/layout/Components';
 import Apis from '../../utils/Apis';
+import Animated from 'react-native-reanimated';
 
 import Modal from '../../components/layout/Modal';
 import TaskList from '../../components/TaskList';

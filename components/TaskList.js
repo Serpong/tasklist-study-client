@@ -62,13 +62,18 @@ const styles = StyleSheet.create({
 		paddingTop:60,
 	},
 	taskListItem:{
-		padding:10,
-		backgroundColor:'#a34',
-		marginVertical:5,
+		padding:15,
+		paddingHorizontal:15,
+		backgroundColor:'#fff',
+		borderWidth:1,
+		borderColor:'#eee',
+		marginVertical:10,
 		borderRadius:5,
+		elevation:7,
+		shadowColor:'#777',
 	},
 	taskListItemText:{
-		color:'#fff',
+		color:'#000',
 	},
 });
 
