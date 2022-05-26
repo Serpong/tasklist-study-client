@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import {StyleSheet, FlatList, Text, Alert, } from 'react-native';
+import {StyleSheet, FlatList, Text, Alert, Dimensions} from 'react-native';
 import { PanGestureHandler, TouchableOpacity } from 'react-native-gesture-handler';
 import Apis from '../utils/Apis';
-import Animated, {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, interpolateColor, withTiming} from 'react-native-reanimated';
+import Animated, {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, interpolateColor, withTiming, interpolate, Extrapolate, runOnJS} from 'react-native-reanimated';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Jobs = {
 	loadTaskList : async (setTaskList, folder_id, setRefreshing)=>{
@@ -17,43 +19,104 @@ const Jobs = {
 		setTaskList(Object.keys(apiResult.data).map(key=>(apiResult.data[key])));
 		return true;
 	},
+	deleteTask: async (setTaskList, task_id)=>{
+		const apiResult = await Apis.deleteTask({task_id});
+		if(apiResult.error){
+			Alert.alert("오류", apiResult.error.msg);
+			return false;
+		}
+		setTaskList(taskList => taskList.filter(item=>(item._id != task_id)));
+		return true;
+	},
 }
-const Item = ({onPressTaskListItem, item, ...props})=>{
+
+
+const DELETE_THRESH = 40;
+const DEVICE_WIDTH = Dimensions.get('window').width;
+
+const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 	const _touchX = useSharedValue(0);
-	// const _threshX = 720 / 4;
+	const deleting = useSharedValue(0);
 	
-	const animatedStyle = useAnimatedStyle(()=>{
+	const itemAnimatedStyle = useAnimatedStyle(()=>{
 		return {
 			transform:[{
 				translateX: _touchX.value,
 			}],
 			backgroundColor:interpolateColor(
 				Math.abs(_touchX.value),
-				[30,100],
-				['#fff', '#f77'],
+				[10, DELETE_THRESH-1, DELETE_THRESH],
+				['#fff', '#faa', '#f33'],
+			),
+			height:interpolate(
+				deleting.value,
+				[0, 100],
+				[50, 0],
 			)
 		};
 	});
+	
+	const iconAnimatedStyle = useAnimatedStyle(()=>{
+		return {
+			opacity: deleting.value?(
+				interpolate(
+					deleting.value,
+					[0,100],
+					[1,0],
+					Extrapolate.CLAMP
+				)
+			):(
+				interpolate(
+					_touchX.value,
+					[-30, -DELETE_THRESH-10],
+					[0,1],
+					Extrapolate.CLAMP
+				)
+			),
+			transform:[{
+				scale:interpolate(
+					_touchX.value,
+					[-20, -DELETE_THRESH],
+					[0, 1],
+					Extrapolate.CLAMP
+				),
+			}],
+		};
+	});
+	
 
 	const onItemPanGesture = useAnimatedGestureHandler({
 		onStart:()=>{
 		},
 		onActive:(e)=>{
-			_touchX.value = e.translationX ?? 0;
+			_touchX.value = Math.min(e.translationX ?? 0, 0);
 		},
-		onEnd:()=>{
-			_touchX.value = withTiming(0);
+		onEnd: ()=>{
+			if(_touchX.value <= -DELETE_THRESH){
+				_touchX.value = withTiming(-DEVICE_WIDTH, {}, ()=>{
+					deleting.value = withTiming(100, {}, ()=>{
+						runOnJS(Jobs.deleteTask)(setTaskList, item._id);
+					});
+				});
+			}
+			else
+				_touchX.value = withTiming(0);
 		}
 	})
 	
 	return (
-		<PanGestureHandler onGestureEvent={onItemPanGesture} activeOffsetX={[-5, 5]} >
-			<Animated.View style={[styles.taskListItem, animatedStyle]}>
-				<TouchableOpacity onPress={onPressTaskListItem} style={styles.taskListItemInner}>
-					<Text style={styles.taskListItemText}>{item.content}</Text>
-				</TouchableOpacity>
+		<>
+			<PanGestureHandler onGestureEvent={onItemPanGesture} failOffsetX={5} activeOffsetX={-5} >
+				<Animated.View style={[styles.taskListItem, itemAnimatedStyle]}>
+					<TouchableOpacity onPress={onPressTaskListItem} style={styles.taskListItemInner}>
+						<Text style={styles.taskListItemText}>{item.content}</Text>
+					</TouchableOpacity>
+				</Animated.View>
+			</PanGestureHandler>
+			<Animated.View style={[styles.taskListItemDeleteIcon, iconAnimatedStyle]} >
+				<Icon name="trash-outline" size={30} color='#f00'/>
 			</Animated.View>
-		</PanGestureHandler>
+		</>
 	);
 }
 const TaskList = ({taskList, setTaskList, folder_id, handleTaskListScroll, showEditTask, ...props})=>{
@@ -70,7 +133,7 @@ const TaskList = ({taskList, setTaskList, folder_id, handleTaskListScroll, showE
 		showEditTask(_id);
 	}
 	const renderItem = ({ item })=>{
-		return <Item item={item} onPressTaskListItem={onPressTaskListItem(item._id)} />
+		return <Item item={item} setTaskList={setTaskList} onPressTaskListItem={onPressTaskListItem(item._id)} />
 	}
 
 	return (
@@ -98,21 +161,34 @@ const styles = StyleSheet.create({
 		paddingTop:60,
 	},
 	taskListItem:{
-		marginHorizontal:10,
 		backgroundColor:'#fff',
-		borderWidth:1,
-		borderColor:'#eee',
-		marginVertical:7,
-		borderRadius:5,
 		elevation:7,
 		shadowColor:'#777',
+		borderWidth:1,
+		borderRadius:5,
+		borderColor:'#eee',
+		marginVertical:7,
+		marginHorizontal:10,
+		zIndex:2,
+		height:50,
 	},
 	taskListItemInner:{
-		flex:1,
-		padding:15,
+		height:'100%',
+		justifyContent:'center',
+		paddingHorizontal:15,
 	},
 	taskListItemText:{
 		color:'#000',
+	},
+	taskListItemDeleteIcon:{
+		position:'absolute',
+		top:0,
+		right:10,
+		height:'100%',
+		width:50,
+		alignItems:'center',
+		justifyContent:'center',
+		zIndex:1,
 	},
 });
 

@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios';
 import FormData from 'form-data';
 
-const API_HOST = "http://192.168.0.3:3000";
+const API_HOST = "http://172.30.98.99:3000";
 
 
 const apiRequester = async({ path, method, data, headers,  })=>{
@@ -52,6 +52,8 @@ const apiRequest = async (path, method, data, isFormRequest)=>{
 
 const Apis = {
 	API_HOST:API_HOST,
+
+	//auth
 	login: async ({userId, userPass})=>{
 		return await apiRequest("/auth/user-login", "post", {userId, userPass});
 	},
@@ -65,9 +67,18 @@ const Apis = {
 		return await apiRequest("/auth/login-check", "get");
 	},
 
+	//Folder
+	insertFolder: async ({folderName:title, folderDescription:description, folderThumb:thumb})=>{
+		let params = {title,description, };
+		if(Object.keys(thumb).length)
+			params.thumb = thumb;
+		return await apiRequest("/folder", "post", params, true);
+	},
 	getFolderList: async ()=>{
 		return await apiRequest("/folder", "get");
 	},
+
+	//Task
 	getTaskList: async ({folder_id})=>{
 		return await apiRequest(`/folder/${folder_id}/tasks`, "get");
 	},
@@ -77,11 +88,8 @@ const Apis = {
 	editTask: async ({content, task_id})=>{
 		return await apiRequest(`/task/${task_id}`, "post", {content});
 	},
-	insertFolder: async ({folderName:title, folderDescription:description, folderThumb:thumb})=>{
-		let params = {title,description, };
-		if(Object.keys(thumb).length)
-			params.thumb = thumb;
-		return await apiRequest("/folder", "post", params, true);
+	deleteTask: async ({task_id})=>{
+		return await apiRequest(`/task/${task_id}`, "delete");
 	},
 }
 
