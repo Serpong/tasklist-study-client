@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {StyleSheet, FlatList, Text, Alert, Dimensions} from 'react-native';
 import { PanGestureHandler, TouchableOpacity } from 'react-native-gesture-handler';
 import Apis from '../utils/Apis';
-import Animated, {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, interpolateColor, withTiming, interpolate, Extrapolate, runOnJS} from 'react-native-reanimated';
+import Animated, {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, interpolateColor, withTiming, interpolate, Extrapolate, runOnJS, withSequence, withRepeat} from 'react-native-reanimated';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -31,12 +31,20 @@ const Jobs = {
 }
 
 
-const DELETE_THRESH = 40;
+const DELETE_THRESH = 60;
 const DEVICE_WIDTH = Dimensions.get('window').width;
+
+
 
 const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 	const _touchX = useSharedValue(0);
 	const deleting = useSharedValue(0);
+	
+
+	const SHAKE_VALUE = useSharedValue(0);
+	SHAKE_VALUE.value = withRepeat(withSequence(withTiming(0), withTiming(1)), -1, true);
+	
+	
 	
 	const itemAnimatedStyle = useAnimatedStyle(()=>{
 		return {
@@ -68,19 +76,24 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 			):(
 				interpolate(
 					_touchX.value,
-					[-30, -DELETE_THRESH-10],
-					[0,1],
+					[-DELETE_THRESH+1, -DELETE_THRESH],
+					[0.2, 1],
 					Extrapolate.CLAMP
 				)
 			),
-			transform:[{
-				scale:interpolate(
-					_touchX.value,
-					[-20, -DELETE_THRESH],
-					[0, 1],
-					Extrapolate.CLAMP
-				),
-			}],
+			transform:[
+				{
+					scale:interpolate(
+						_touchX.value,
+						[-20, -DELETE_THRESH],
+						[0, 1],
+						Extrapolate.CLAMP
+					)
+				},
+				{
+					rotate: (_touchX.value <= -DELETE_THRESH) ? `${interpolate(SHAKE_VALUE.value, [0,1], [-20, 20])}deg` : '0deg',
+				}
+			],
 		};
 	});
 	
