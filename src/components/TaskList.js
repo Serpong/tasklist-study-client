@@ -31,19 +31,17 @@ const Jobs = {
 }
 
 
-const DELETE_THRESH = 60;
+const DELETE_THRESH = -60;
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 
-
 const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
+	console.log('updated', item._id);
 	const _touchX = useSharedValue(0);
 	const deleting = useSharedValue(0);
 	
-
 	const SHAKE_VALUE = useSharedValue(0);
 	SHAKE_VALUE.value = withRepeat(withSequence(withTiming(0), withTiming(1)), -1, true);
-	
 	
 	
 	const itemAnimatedStyle = useAnimatedStyle(()=>{
@@ -52,9 +50,9 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 				translateX: _touchX.value,
 			}],
 			backgroundColor:interpolateColor(
-				Math.abs(_touchX.value),
-				[10, DELETE_THRESH-1, DELETE_THRESH],
-				['#fff', '#faa', '#f33'],
+				_touchX.value,
+				[DELETE_THRESH, DELETE_THRESH+1, -10],
+				['#f33', '#faa', '#fff'],
 			),
 			height:interpolate(
 				deleting.value,
@@ -76,7 +74,7 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 			):(
 				interpolate(
 					_touchX.value,
-					[-DELETE_THRESH+1, -DELETE_THRESH],
+					[DELETE_THRESH+1, DELETE_THRESH],
 					[0.2, 1],
 					Extrapolate.CLAMP
 				)
@@ -85,13 +83,13 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 				{
 					scale:interpolate(
 						_touchX.value,
-						[-20, -DELETE_THRESH],
+						[-20, DELETE_THRESH],
 						[0, 1],
 						Extrapolate.CLAMP
 					)
 				},
 				{
-					rotate: (_touchX.value <= -DELETE_THRESH) ? `${interpolate(SHAKE_VALUE.value, [0,1], [-20, 20])}deg` : '0deg',
+					rotate: (_touchX.value <= DELETE_THRESH) ? `${interpolate(SHAKE_VALUE.value, [0,1], [-20, 20])}deg` : '0deg',
 				}
 			],
 		};
@@ -105,7 +103,7 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 			_touchX.value = Math.min(e.translationX ?? 0, 0);
 		},
 		onEnd: ()=>{
-			if(_touchX.value <= -DELETE_THRESH){
+			if(_touchX.value <= DELETE_THRESH){
 				_touchX.value = withTiming(-DEVICE_WIDTH, {}, ()=>{
 					deleting.value = withTiming(100, {}, ()=>{
 						runOnJS(Jobs.deleteTask)(setTaskList, item._id);
@@ -134,7 +132,7 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 }
 const TaskList = ({taskList, setTaskList, folder_id, handleTaskListScroll, showEditTask, ...props})=>{
 
-	
+	console.log('main updated');
 	const [refreshing, setRefreshing] = useState(true);
 
 	useEffect(()=>{
