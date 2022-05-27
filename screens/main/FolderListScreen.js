@@ -63,8 +63,8 @@ const FolderListScreen = (props)=>{
 
 	const renderItem = ({ item })=>(
 		(item._id=='btnAddFolder')?(
-			<TouchableOpacity style={[styles.folderListItem, styles.folderListItemBg]} onPress={onPressAddFolder}>
-				<Text style={styles.folderListItemText}>{item.title}</Text>
+			<TouchableOpacity style={[styles.folderListItem, styles.folderListItemBg, styles.folderListAddItem]} onPress={onPressAddFolder}>
+				<Text style={[styles.folderListItemText, styles.folderListAddItemText]}>{item.title}</Text>
 			</TouchableOpacity>
 		):(
 			<TouchableOpacity style={styles.folderListItem} onPress={onPressFolderListItem(item)}>
@@ -120,19 +120,33 @@ const styles = StyleSheet.create({
 		padding:15,
 	},
 	folderListItem:{
-		backgroundColor: '#ddd',
+		backgroundColor: GLOBALS.COLORS.PRIMARY,
 		marginVertical:10,
 		elevation:10,
+		borderRadius:10,
+		overflow:'hidden',
 	},
 	folderListItemBg:{
-		flex:1,
 		padding:5,
-		paddingVertical:70,
+		height:100,
 	},
 	folderListItemText:{
+		flex:1,
 		textAlign:'center',
-		color:'#000',
-	}
+		textAlignVertical:'center',
+		color:'#fff',
+		fontSize:20,
+		textShadowColor: 'rgba(0,0,0,0.75)',
+		textShadowOffset: {width: 1, height: 1},
+		textShadowRadius: 15,
+		letterSpacing:-0.3,
+	},
+	folderListAddItem:{
+	},
+	folderListAddItemText:{
+		fontSize:16,
+		fontWeight:'bold',
+	},
 });
 
 export default FolderListScreen;

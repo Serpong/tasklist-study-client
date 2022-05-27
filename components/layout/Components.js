@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
 	imagePickerButton:{
 		flex:1,
 		marginLeft:5,
+		fontSize:12,
 	},
 });
 

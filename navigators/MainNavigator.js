@@ -6,6 +6,7 @@ import MenuScreen from '../screens/main/MenuScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FolderListScreen from '../screens/main/FolderListScreen';
 import TaskListScreen from '../screens/main/TaskListScreen';
+import GLOBALS from '../Globals';
 
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +26,7 @@ const MainNavigator = ()=>{
 		return <Icons name={iconName} size={size} color={color} />;
 	}
 	return (
-		<Tab.Navigator screenOptions={{headerShown:false}}>
+		<Tab.Navigator screenOptions={{headerShown:false, tabBarActiveTintColor:GLOBALS.COLORS.PRIMARY}} >
 			<Tab.Screen
 				name="tasks"
 				component={TasksNavigator}

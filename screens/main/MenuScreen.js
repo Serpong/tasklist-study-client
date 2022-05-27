@@ -24,7 +24,6 @@ const MenuScreen = (props)=>{
 	return(
 		<Container {...props} style={{backgroundColor:GLOBALS.COLORS.PRIMARY,}}>
 			<View style={styles.indexContainer}>
-				<Text>Welcome</Text>
 				<BtnBorder title="로그아웃" onPress={onLogout} />
 			</View>
 		</Container>
