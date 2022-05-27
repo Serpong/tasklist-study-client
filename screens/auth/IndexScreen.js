@@ -2,13 +2,13 @@ import React from 'react';
 
 import { View, Text, StyleSheet } from 'react-native';
 import { BtnBorder, BtnSecondary, Container } from '../../components/layout/Components';
+import GLOBALS from '../../Globals';
 
 
-const Index = (props)=>{
-	const { navigation } = props;
+const Index = ({navigation, ...props})=>{
 	return(
-		<Container {...props} style={{backgroundColor:'#3cc5b1',}}>
-			<View style={styles.indexContainer}>
+		<Container style={styles.indexContainer} navigation={navigation}>
+			<View>
 				<Text style={styles.text1}>Welcome</Text>
 				<Text style={styles.text2}>Easiest way{'\n'}Manage your tasks</Text>
 				<BtnSecondary title="Login" onPress={()=>{navigation.navigate("Login")}} />
@@ -20,10 +20,10 @@ const Index = (props)=>{
 
 const styles = StyleSheet.create({
 	indexContainer:{
-		flex:1,
-		justifyContent:'flex-end',
-		padding:15,
-		paddingBottom:'45%',
+		padding:20,
+		backgroundColor:GLOBALS.COLORS.PRIMARY,
+		justifyContent:'center',
+
 	},
 	text1:{
 		color:'#fff',

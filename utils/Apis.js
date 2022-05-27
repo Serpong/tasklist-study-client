@@ -1,24 +1,21 @@
 import React from 'react'
 import axios from 'axios';
 import FormData from 'form-data';
+import GLOBALS from '../Globals';
 
-const API_HOST = "http://192.168.0.3:3000";
-
-
-const apiRequester = async({ path, method, data, headers,  })=>{
+const apiRequester = async({ path, method, data, headers, })=>{
 	
 	let result = {};
 
 	await axios({
 		method	: method,
-		url		: API_HOST+path,
+		url		: GLOBALS.API_HOST+path,
 		data	: data,
 		timeout : 1000,
 		headers : headers,
 	})
 	.then(response=>{
 		result = response.data;
-		// console.log(result);
 		result.error = false;
 	})
 	.catch(error=>{
@@ -51,7 +48,7 @@ const apiRequest = async (path, method, data, isFormRequest)=>{
 
 
 const Apis = {
-	API_HOST:API_HOST,
+	API_HOST:GLOBALS.API_HOST,
 
 	//auth
 	login: async ({userId, userPass})=>{

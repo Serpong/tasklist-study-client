@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, } from 'react-native';
+import GLOBALS from '../../../Globals';
 
 const ModalBottom = ({style, children, ...props})=>{
 	return (
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
 	modalBottomButtonText:{
 		fontSize:11,
 		fontWeight:'bold',
-		color:'#ff0545',
+		color:GLOBALS.COLORS.PRIMARY,
 		textAlign:'center',
 		textAlignVertical:'center',
 	}

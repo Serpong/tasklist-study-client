@@ -5,6 +5,7 @@ import { BtnBorder, BtnSecondary, Container } from '../../components/layout/Comp
 import { useDispatch } from 'react-redux';
 import Apis from '../../utils/Apis';
 import { userSetLogout } from '../../reducers/userReducer';
+import GLOBALS from '../../Globals';
 
 
 const MenuScreen = (props)=>{
@@ -21,7 +22,7 @@ const MenuScreen = (props)=>{
 		});
 	}
 	return(
-		<Container {...props} style={{backgroundColor:'#3cc5b1',}}>
+		<Container {...props} style={{backgroundColor:GLOBALS.COLORS.PRIMARY,}}>
 			<View style={styles.indexContainer}>
 				<Text>Welcome</Text>
 				<BtnBorder title="로그아웃" onPress={onLogout} />

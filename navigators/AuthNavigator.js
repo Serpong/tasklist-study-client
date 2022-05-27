@@ -8,7 +8,7 @@ import SignUpScreen from '../screens/auth/SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 
-const AuthNavigator = (props)=>{
+const AuthNavigator = ({...props})=>{
 	return (
 		<Stack.Navigator screenOptions={{headerShown:false,}}>
 			<Stack.Screen name="Index" component={IndexScreen} />

@@ -1,17 +1,24 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, Text, View, TextInput } from 'react-native';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import CustomBack from './CustomBack';
-
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-
+import GLOBALS from '../../Globals';
 
 
-const Container = (props)=>{
-	// const { hasBack, children, navigation, style } = props;
-	const newPaddingTop = (props.style.paddingTop??props.style.padding??props.style.paddingVertical??0) + (props.hasBack&&!props.hasBackNoPadding?60:0);
+const Container = ({hasBack, hasBackNoPadding, navigation, ...props})=>{
+	const newPaddingTop = (
+		(
+			props.style?
+				(props.style.paddingTop??props.style.padding??props.style.paddingVertical??0)
+			:
+				(0)
+		)
+		+
+		(hasBack&&!hasBackNoPadding?60:0)
+	);
 	return(
 		<View style={{...props.style, ...styles.container, paddingTop:newPaddingTop}}>
-			{props.hasBack && <CustomBack navigation={props.navigation} />}
+			{hasBack && <CustomBack navigation={navigation} />}
 			{props.children}
 		</View>
 	)
@@ -93,22 +100,18 @@ const ImagePickerTemplate = ({title, assets, setAssets, ...props})=>{
 
 }
 const ImagePicker = {
-	camera:(props)=>{
+	camera: props =>{
 		return ImagePickerTemplate(props);
 	},
-	gallery:(props)=>{
-
+	gallery: (props)=>{
 		return (
 			<ImagePickerTemplate>
-
 			</ImagePickerTemplate>
 		);
 	},
-	both:(props)=>{
-
+	both: (props)=>{
 		return (
 			<ImagePickerTemplate>
-
 			</ImagePickerTemplate>
 		);
 	},
@@ -124,17 +127,17 @@ const styles = StyleSheet.create({
 		justifyContent:'center',
 		textAlign:'center',
 		textAlignVertical:'center',
-		borderWidth:StyleSheet.hairlineWidth,
+		borderWidth:1,
 		borderColor:'#fff',
 		marginVertical:5,
 	},
 	btnPrimary:{
-		backgroundColor:'#ff0545',
+		backgroundColor: GLOBALS.COLORS.PRIMARY,
 		color:'#fff',
 	},
 	btnSecondary:{
 		backgroundColor:'#fff',
-		color:'#ff0545',
+		color: GLOBALS.COLORS.PRIMARY,
 	},
 	btnBorder:{
 		color:'#fff',
@@ -144,7 +147,7 @@ const styles = StyleSheet.create({
 		borderColor:'#ddd',
 	},
 	inputFocused:{
-		borderColor:'#ff0545',
+		borderColor: GLOBALS.COLORS.PRIMARY,
 	},
 	inputPrimary:{
 		borderBottomWidth:2,

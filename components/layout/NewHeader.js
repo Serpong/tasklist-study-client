@@ -1,8 +1,7 @@
 import React from 'react';
 
-import Icons from 'react-native-vector-icons/Ionicons';
-
 import { StyleSheet, View, Button, Text, TouchableOpacity } from 'react-native';
+import Icons from 'react-native-vector-icons/Ionicons';
 
 
 const NewHeader = ({navigation, route, ...props})=>{
@@ -37,7 +36,6 @@ const styles = StyleSheet.create({
 	btnHeaderBack:{
 		width:30,
 		height:30,
-		// backgroundColor:'red',
 		justifyContent:'center',
 		alignItems:'center',
 	},

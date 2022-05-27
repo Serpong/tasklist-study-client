@@ -9,14 +9,12 @@ import { userSetLogin } from '../../reducers/userReducer';
 import { useInputs } from '../../utils/componentUtils';
 
 
-const LoginScreen = (props)=>{
+const LoginScreen = ({...props})=>{
 	const dispatch = useDispatch();
-	
-	const { navigation } = props;
 
 	const loginInputs = useInputs({
-		userId:"thisisid",
-		userPass:"thisispass",
+		userId:"",
+		userPass:"",
 	})
 
 	const onLogin = async ()=>{
@@ -32,7 +30,7 @@ const LoginScreen = (props)=>{
 	}
 
 	return(
-		<Container hasBack={true} {...props} style={{backgroundColor:'#fff',}}>
+		<Container hasBack={true} {...props}>
 			<View style={styles.loginContainer}>
 				<Text style={styles.text1}>Login</Text>
 				<Text style={styles.text2}>Easiest way{'\n'}Manage your tasks</Text>

@@ -5,7 +5,6 @@ export const useInputs = (initialState)=>{
 	const [inputs, setInputs] = useState(initialState);
 
 	const setInput = (name, value)=>{
-		// console.log("set called", name, value);
 		setInputs({
 			...inputs,
 			[name]: value

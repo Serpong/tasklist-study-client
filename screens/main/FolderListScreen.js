@@ -2,14 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import { Alert, View, Text, StyleSheet, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import { ImagePicker, Container, InputCircle, InputPrimary } from '../../components/layout/Components';
-
 import Apis from '../../utils/Apis';
-
+import GLOBALS from '../../Globals';
 import Modal from '../../components/layout/Modal';
-
 import { useInputs } from '../../utils/componentUtils';
-
-
 
 
 const Jobs = {
@@ -48,8 +44,7 @@ const FolderListScreen = (props)=>{
 
 	const onPressAddFolder = async ()=>{
 		setShowAddFolderModal(true);
-		modalInputs.setInput('folderName', 'testst');
-		// console.log(result);
+		modalInputs.setInput('folderName', '');
 	}
 	const onPressInsertFolder = async ()=>{
 
@@ -73,14 +68,12 @@ const FolderListScreen = (props)=>{
 			</TouchableOpacity>
 		):(
 			<TouchableOpacity style={styles.folderListItem} onPress={onPressFolderListItem(item)}>
-				{<ImageBackground source={{uri:Apis.API_HOST+item.thumbUrl}} style={styles.folderListItemBg}>
+				{<ImageBackground source={{uri:GLOBALS.API_HOST+item.thumbUrl}} style={styles.folderListItemBg}>
 					<Text style={styles.folderListItemText}>{item.title}</Text>
 				</ImageBackground>}
 			</TouchableOpacity>
 		)
 	)
-
-
 
 	return(
 		<Container {...props} style={styles.container}>
@@ -113,7 +106,6 @@ const FolderListScreen = (props)=>{
 		</Container>
 	)
 }
-
 
 
 const styles = StyleSheet.create({

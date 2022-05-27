@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, } from 'react-native';
 import { ModalBottom, ModalBottomButton, ModalBottomSpacer } from './ModalComponents';
+import GLOBALS from '../../../Globals';
 
 const YesNo = ({hideModal, onPressYes, onPressNo, YesTitle, NoTitle, ...props})=>{
 	return (
@@ -26,14 +27,11 @@ const Ok = ({hideModal, onPressOk, okTitle, ...props})=>{
 }
 
 const styles = StyleSheet.create({
-	modalBottom:{
-		// borderTopWidth:1,
-		// borderTopColor:'#eee'
-	},
-	ButtonPrimary:{ backgroundColor:'#ff0545', },
-	ButtonPrimaryText:{ color:'#fff', },
-	ButtonSecondary:{  },
-	ButtonSecondaryText:{  },
+	modalBottom: { },
+	ButtonPrimary: { backgroundColor:GLOBALS.COLORS.PRIMARY, },
+	ButtonPrimaryText: { color:'#fff', },
+	ButtonSecondary: { },
+	ButtonSecondaryText: { },
 });
 
 export default { YesNo, Ok, };

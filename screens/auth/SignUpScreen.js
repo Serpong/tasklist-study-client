@@ -8,7 +8,7 @@ import Apis from '../../utils/Apis';
 import { useInputs } from '../../utils/componentUtils';
 
 
-const SignUpScreen = (props)=>{
+const SignUpScreen = ({...props})=>{
 	const dispatch = useDispatch();
 
 	const signUpInputs = useInputs({
@@ -19,7 +19,7 @@ const SignUpScreen = (props)=>{
 	});
 	
 	const onSignUp = async ()=>{
-		if(inputPass != inputPassCheck)
+		if(signUpInputs.userPass != signUpInputs.userPassCheck)
 			return Alert.alert("오류", "패스워드 확인이 틀립니다.");
 
 		const registerResponse = await Apis.register({
@@ -42,43 +42,48 @@ const SignUpScreen = (props)=>{
 	}
 
 	return(
-		<Container hasBack={true} {...props}>
-			<View style={styles.signUpContainer}>
-				<Text>Sign Up</Text>
-				<InputPrimary
-					placeholder='ID'
-					{...signUpInputs.inputProps('userId')}
-				/>
-				<InputPrimary
-					placeholder='name'
-					{...signUpInputs.inputProps('userName')}
-				/>
-				<InputPrimary
-					placeholder='Password'
-					textContentType="password"
-					secureTextEntry
-					{...signUpInputs.inputProps('userPass')}
-				/>
-				<InputPrimary
-					placeholder='Password check'
-					textContentType="password"
-					secureTextEntry
-					{...signUpInputs.inputProps('userPassCheck')}
-				/>
-				<BtnPrimary
-					title="Sign Up"
-					style={{marginTop:15,}}
-					onPress={onSignUp}
-				/>
-			</View>
+		<Container hasBack={true} style={styles.signUpContainer} {...props}>
+			<Text style={styles.signUpTitle}>Sign Up</Text>
+			<InputPrimary
+				placeholder='ID'
+				{...signUpInputs.inputProps('userId')}
+			/>
+			<InputPrimary
+				placeholder='name'
+				{...signUpInputs.inputProps('userName')}
+			/>
+			<InputPrimary
+				placeholder='Password'
+				textContentType="password"
+				secureTextEntry
+				{...signUpInputs.inputProps('userPass')}
+			/>
+			<InputPrimary
+				placeholder='Password check'
+				textContentType="password"
+				secureTextEntry
+				{...signUpInputs.inputProps('userPassCheck')}
+			/>
+			<BtnPrimary
+				title="Sign Up"
+				style={{marginTop:15,}}
+				onPress={onSignUp}
+			/>
 		</Container>
 	)
 }
 
 const styles = StyleSheet.create({
 	signUpContainer:{
-		flex:1,
-		padding:15,
+		paddingHorizontal:20,
+		justifyContent:'center',
+	},
+	signUpTitle:{
+		fontSize:20,
+		fontWeight:'bold',
+		color:'#333333',
+		marginTop:-60,
+		marginBottom:20,
 	}
 });
 
