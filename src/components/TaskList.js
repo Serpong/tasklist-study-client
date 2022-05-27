@@ -8,10 +8,10 @@ import Animated, {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, w
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Jobs = {
-	loadTaskList : async (setTaskList, folder_id, setRefreshing)=>{
-		setRefreshing(true);
+	loadTaskList : async (setTaskList, folder_id, refreshing)=>{
+		refreshing = true;
 		const apiResult = await Apis.getTaskList({folder_id});
-		setRefreshing(false);
+		refreshing = false;
 		if(apiResult.error){
 			Alert.alert("오류", apiResult.error.msg);
 			return false;
@@ -40,8 +40,9 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 	const _touchX = useSharedValue(0);
 	const deleting = useSharedValue(0);
 	
-	const SHAKE_VALUE = useSharedValue(0);
-	SHAKE_VALUE.value = withRepeat(withSequence(withTiming(0), withTiming(1)), -1, true);
+	const SHAKE_VALUE = useSharedValue(0.5);
+	
+	const testvalue = useSharedValue(true);
 	
 	
 	const itemAnimatedStyle = useAnimatedStyle(()=>{
@@ -89,18 +90,28 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 					)
 				},
 				{
-					rotate: (_touchX.value <= DELETE_THRESH) ? `${interpolate(SHAKE_VALUE.value, [0,1], [-20, 20])}deg` : '0deg',
+					rotate:  `${interpolate(SHAKE_VALUE.value, [0, 1], [-20, 20])}deg`,
 				}
 			],
 		};
 	});
-	
 
 	const onItemPanGesture = useAnimatedGestureHandler({
 		onStart:()=>{
 		},
 		onActive:(e)=>{
 			_touchX.value = Math.min(e.translationX ?? 0, 0);
+			if(testvalue.value == true && _touchX.value < DELETE_THRESH){
+				SHAKE_VALUE.value = withRepeat(withSequence(withTiming(0), withTiming(1)), -1, true);
+				testvalue.value = false;
+				console.log('a');
+			}
+			else if(testvalue.value == false && _touchX.value >= DELETE_THRESH){
+				SHAKE_VALUE.value = 0.5;
+				testvalue.value = true;
+				console.log('b');
+			}
+			console.log(SHAKE_VALUE.value);
 		},
 		onEnd: ()=>{
 			if(_touchX.value <= DELETE_THRESH){
@@ -133,10 +144,10 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 const TaskList = ({taskList, setTaskList, folder_id, handleTaskListScroll, showEditTask, ...props})=>{
 
 	console.log('main updated');
-	const [refreshing, setRefreshing] = useState(true);
+	const refreshing = useRef(false).current;
 
 	useEffect(()=>{
-		Jobs.loadTaskList(setTaskList, folder_id, setRefreshing);
+		Jobs.loadTaskList(setTaskList, folder_id, refreshing);
 	},[])
 
 
@@ -156,7 +167,7 @@ const TaskList = ({taskList, setTaskList, folder_id, handleTaskListScroll, showE
 			keyExtractor={item=>item._id}
 			onScroll={handleTaskListScroll}
 			refreshing={refreshing}
-			onRefresh={()=>{Jobs.loadTaskList(setTaskList, folder_id, setRefreshing);}}
+			onRefresh={()=>{Jobs.loadTaskList(setTaskList, folder_id, refreshing);}}
 		/>
 	);
 }
