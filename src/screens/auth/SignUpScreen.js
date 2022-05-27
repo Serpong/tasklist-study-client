@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { StyleSheet, View, Text, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { Container, BtnPrimary, InputPrimary } from '@src/components/common';
+import { Container, Btn, Input } from '@src/components/common/index';
 import { userSetLogin } from '@src/reducers/userReducer';
 import Apis from '@src/utils/Apis';
 import { useInputs } from '@src/utils/componentUtils';
@@ -44,27 +44,27 @@ const SignUpScreen = ({...props})=>{
 	return(
 		<Container hasBack={true} style={styles.signUpContainer} {...props}>
 			<Text style={styles.signUpTitle}>Sign Up</Text>
-			<InputPrimary
+			<Input.Primary
 				placeholder='ID'
 				{...signUpInputs.inputProps('userId')}
 			/>
-			<InputPrimary
+			<Input.Primary
 				placeholder='name'
 				{...signUpInputs.inputProps('userName')}
 			/>
-			<InputPrimary
+			<Input.Primary
 				placeholder='Password'
 				textContentType="password"
 				secureTextEntry
 				{...signUpInputs.inputProps('userPass')}
 			/>
-			<InputPrimary
+			<Input.Primary
 				placeholder='Password check'
 				textContentType="password"
 				secureTextEntry
 				{...signUpInputs.inputProps('userPassCheck')}
 			/>
-			<BtnPrimary
+			<Btn.Primary
 				title="Sign Up"
 				style={{marginTop:15,}}
 				onPress={onSignUp}

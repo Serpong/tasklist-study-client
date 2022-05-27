@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { BtnBorder, BtnPrimary, BtnSecondary, Container, InputPrimary } from '@src/components/common';
+import { Btn, Container, Input } from '@src/components/common/index';
 import Apis from '@src/utils/Apis';
 import { userSetLogin } from '@src/reducers/userReducer';
 import { useInputs } from '@src/utils/componentUtils';
@@ -34,17 +34,17 @@ const LoginScreen = ({...props})=>{
 			<View style={styles.loginContainer}>
 				<Text style={styles.text1}>Login</Text>
 				<Text style={styles.text2}>Easiest way{'\n'}Manage your tasks</Text>
-				<InputPrimary
+				<Input.Primary
 					placeholder='ID'
 					{...loginInputs.inputProps('userId')}
 				/>
-				<InputPrimary
+				<Input.Primary
 					placeholder='Password'
 					textContentType="password"
 					secureTextEntry
 					{...loginInputs.inputProps('userPass')}
 				/>
-				<BtnPrimary
+				<Btn.Primary
 					title="Login"
 					style={{marginTop:15,}}
 					onPress={()=>onLogin()}

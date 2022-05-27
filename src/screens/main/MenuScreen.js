@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { View, Text, StyleSheet, Alert } from 'react-native';
-import { BtnBorder, BtnSecondary, Container } from '@src/components/common';
+import { Btn, Container } from '@src/components/common/index';
 import { useDispatch } from 'react-redux';
 import Apis from '@src/utils/Apis';
 import { userSetLogout } from '@src/reducers/userReducer';
@@ -24,7 +24,7 @@ const MenuScreen = (props)=>{
 	return(
 		<Container {...props} style={{backgroundColor:GLOBALS.COLORS.PRIMARY,}}>
 			<View style={styles.indexContainer}>
-				<BtnBorder title="로그아웃" onPress={onLogout} />
+				<Btn.BorderSecondary title="로그아웃" onPress={onLogout} />
 			</View>
 		</Container>
 	)

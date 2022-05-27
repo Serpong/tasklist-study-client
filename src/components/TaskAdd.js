@@ -4,7 +4,7 @@ import Icons from 'react-native-vector-icons/Ionicons';
 
 import { Alert, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useInputs } from '@src/utils/componentUtils';
-import { InputCircle } from './common/index';
+import { Input } from '@src/components/common/index';
 import Apis from '@src/utils/Apis';
 
 const Jobs = {
@@ -34,7 +34,7 @@ const TaskAdd = ({taskList, setTaskList, folder_id, ...props})=>{
 
 	return (
 		<View style={styles.taskAddContainer}>
-			<InputCircle placeholder="새 태스크" style={styles.taskAddInput} {...taskAddInputs.inputProps('content')} />
+			<Input.Circle placeholder="새 태스크" style={styles.taskAddInput} {...taskAddInputs.inputProps('content')} />
 			<TouchableOpacity onPress={onPressTaskAdd} style={styles.taskAddButton}><Icons name="chevron-forward-outline" size={20} style={styles.taskAddButtonIcon}/></TouchableOpacity>
 		</View>
 	);

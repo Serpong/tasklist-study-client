@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Alert, View, Text, StyleSheet, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
 
-import { ImagePicker, Container, InputCircle, InputPrimary } from '@src/components/common';
+import { ImagePicker, Container, Input } from '@src/components/common/index';
 import Apis from '@src/utils/Apis';
 import GLOBALS from '@src/Globals';
 import Modal from '@src/components/layout/Modal';
@@ -89,11 +89,11 @@ const FolderListScreen = (props)=>{
 				setShowModal={setShowAddFolderModal}
 			>
 				<View style={{paddingHorizontal:20,}}>
-					<InputCircle
+					<Input.Circle
 						placeholder='폴더 명'
 						{...modalInputs.inputProps('folderName')}
 					/>
-					<ImagePicker.camera assets={folderUploadImage} setAssets={setFolderUploadImage} />
+					<ImagePicker.Both assets={folderUploadImage} setAssets={setFolderUploadImage} />
 				</View>
 			</Modal>
 			

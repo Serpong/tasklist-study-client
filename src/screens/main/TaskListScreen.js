@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 import { Alert, View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { BtnPrimary, Container, InputCircle, InputPrimary } from '@src/components/common';
+import { Btn, Container, Input } from '@src/components/common/index';
 import Apis from '@src/utils/Apis';
 import Animated from 'react-native-reanimated';
 
@@ -67,7 +67,7 @@ const TaskListScreen = (props)=>{
 				setShowModal={setShowEditTaskModal}
 			>
 				<View style={{paddingHorizontal:20,}}>
-					<InputCircle
+					<Input.Circle
 						placeholder='태스크 명'
 						{...modalInputs.inputProps('content')}
 					/>
