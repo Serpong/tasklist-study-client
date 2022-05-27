@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 
-import { NavigationContainer } from "@react-navigation/native";
-import AuthNavigator from "./navigators/AuthNavigator";
-import MainNavigator from "./navigators/MainNavigator";
 import { useDispatch, useSelector } from 'react-redux';
-import Apis from './utils/Apis';
-import { userSetLogin, userSetLogout } from './reducers/userReducer';
+import { NavigationContainer } from "@react-navigation/native";
+
+import { userSetLogin, userSetLogout } from '@src/reducers/userReducer';
+import AuthNavigator from "@src/navigators/AuthNavigator";
+import MainNavigator from "@src/navigators/MainNavigator";
+import Apis from '@src/utils/Apis';
 
 
 const Navigations = ()=>{

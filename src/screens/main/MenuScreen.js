@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { View, Text, StyleSheet, Alert } from 'react-native';
-import { BtnBorder, BtnSecondary, Container } from '../../components/layout/Components';
+import { BtnBorder, BtnSecondary, Container } from '@src/components/common';
 import { useDispatch } from 'react-redux';
-import Apis from '../../utils/Apis';
-import { userSetLogout } from '../../reducers/userReducer';
-import GLOBALS from '../../Globals';
+import Apis from '@src/utils/Apis';
+import { userSetLogout } from '@src/reducers/userReducer';
+import GLOBALS from '@src/Globals';
 
 
 const MenuScreen = (props)=>{

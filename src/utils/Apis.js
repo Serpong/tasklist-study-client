@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import FormData from 'form-data';
-import GLOBALS from '../Globals';
+import GLOBALS from '@src/Globals';
 
 const apiRequester = async({ path, method, data, headers, })=>{
 	

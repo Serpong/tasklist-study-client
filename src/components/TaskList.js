@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import {StyleSheet, FlatList, Text, Alert, Dimensions} from 'react-native';
 import { PanGestureHandler, TouchableOpacity } from 'react-native-gesture-handler';
-import Apis from '../utils/Apis';
+import Apis from '@src/utils/Apis';
 import Animated, {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, interpolateColor, withTiming, interpolate, Extrapolate, runOnJS, withSequence, withRepeat} from 'react-native-reanimated';
 
 import Icon from 'react-native-vector-icons/Ionicons';

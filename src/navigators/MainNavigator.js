@@ -2,11 +2,12 @@ import React from 'react';
 
 import Icons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MenuScreen from '../screens/main/MenuScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import FolderListScreen from '../screens/main/FolderListScreen';
-import TaskListScreen from '../screens/main/TaskListScreen';
-import GLOBALS from '../Globals';
+
+import MenuScreen from '@src/screens/main/MenuScreen';
+import FolderListScreen from '@src/screens/main/FolderListScreen';
+import TaskListScreen from '@src/screens/main/TaskListScreen';
+import GLOBALS from '@src/Globals';
 
 
 const Tab = createBottomTabNavigator();

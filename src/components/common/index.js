@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, Text, View, TextInput } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import CustomBack from './CustomBack';
-import GLOBALS from '../../Globals';
+import CustomBack from '@src/components/layout/CustomBack';
+import GLOBALS from '@src/Globals';
 
 
 const Container = ({hasBack, hasBackNoPadding, navigation, ...props})=>{

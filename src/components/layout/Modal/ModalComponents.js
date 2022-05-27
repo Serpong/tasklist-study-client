@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, } from 'react-native';
-import GLOBALS from '../../../Globals';
+import GLOBALS from '@src/Globals';
 
 const ModalBottom = ({style, children, ...props})=>{
 	return (

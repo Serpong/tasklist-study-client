@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 import { StyleSheet, View, Text, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { Container, BtnPrimary, InputPrimary } from '../../components/layout/Components';
-import { userSetLogin } from '../../reducers/userReducer';
-import Apis from '../../utils/Apis';
-import { useInputs } from '../../utils/componentUtils';
+import { Container, BtnPrimary, InputPrimary } from '@src/components/common';
+import { userSetLogin } from '@src/reducers/userReducer';
+import Apis from '@src/utils/Apis';
+import { useInputs } from '@src/utils/componentUtils';
 
 
 const SignUpScreen = ({...props})=>{

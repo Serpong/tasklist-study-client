@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { View, Text, StyleSheet } from 'react-native';
-import { BtnBorder, BtnSecondary, Container } from '../../components/layout/Components';
-import GLOBALS from '../../Globals';
+import { BtnBorder, BtnSecondary, Container } from '@src/components/common';
+import GLOBALS from '@src/Globals';
 
 
 const Index = ({navigation, ...props})=>{

@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 
 import { View, Text, StyleSheet, Alert } from 'react-native';
-import { BtnBorder, BtnPrimary, BtnSecondary, Container, InputPrimary } from '../../components/layout/Components';
-
-import Apis from '../../utils/Apis';
 import { useDispatch, useSelector } from 'react-redux';
-import { userSetLogin } from '../../reducers/userReducer';
-import { useInputs } from '../../utils/componentUtils';
+
+import { BtnBorder, BtnPrimary, BtnSecondary, Container, InputPrimary } from '@src/components/common';
+import Apis from '@src/utils/Apis';
+import { userSetLogin } from '@src/reducers/userReducer';
+import { useInputs } from '@src/utils/componentUtils';
 
 
 const LoginScreen = ({...props})=>{

@@ -2,9 +2,9 @@ import React from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import IndexScreen from '../screens/auth/IndexScreen';
-import LoginScreen from '../screens/auth/LoginScreen';
-import SignUpScreen from '../screens/auth/SignUpScreen';
+import IndexScreen from '@src/screens/auth/IndexScreen';
+import LoginScreen from '@src/screens/auth/LoginScreen';
+import SignUpScreen from '@src/screens/auth/SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 

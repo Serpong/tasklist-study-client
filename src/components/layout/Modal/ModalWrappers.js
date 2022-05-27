@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, } from 'react-native';
 import { ModalBottom, ModalBottomButton, ModalBottomSpacer } from './ModalComponents';
-import GLOBALS from '../../../Globals';
+import GLOBALS from '@src/Globals';
 
 const YesNo = ({hideModal, onPressYes, onPressNo, YesTitle, NoTitle, ...props})=>{
 	return (

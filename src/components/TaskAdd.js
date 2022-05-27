@@ -3,9 +3,9 @@ import React from 'react';
 import Icons from 'react-native-vector-icons/Ionicons';
 
 import { Alert, StyleSheet, View, TouchableOpacity } from 'react-native';
-import { useInputs } from '../utils/componentUtils';
-import { InputCircle } from './layout/Components';
-import Apis from '../utils/Apis';
+import { useInputs } from '@src/utils/componentUtils';
+import { InputCircle } from './common/index';
+import Apis from '@src/utils/Apis';
 
 const Jobs = {
 	insertTaskList: async (setTaskList, content, folder_id )=>{

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import { Alert, View, Text, StyleSheet, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
-import { ImagePicker, Container, InputCircle, InputPrimary } from '../../components/layout/Components';
-import Apis from '../../utils/Apis';
-import GLOBALS from '../../Globals';
-import Modal from '../../components/layout/Modal';
-import { useInputs } from '../../utils/componentUtils';
+
+import { ImagePicker, Container, InputCircle, InputPrimary } from '@src/components/common';
+import Apis from '@src/utils/Apis';
+import GLOBALS from '@src/Globals';
+import Modal from '@src/components/layout/Modal';
+import { useInputs } from '@src/utils/componentUtils';
 
 
 const Jobs = {
