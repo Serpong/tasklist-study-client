@@ -1,5 +1,33 @@
 # 공부용 Tasklist 프로젝트
 
+React-Native 학습용 프로젝트입니다.
+
+## Server
+#### Frontend (react-native-cli)
+https://github.com/Serpong/tasklist-study-client 
+
+#### Backend (node.js Express)
+https://github.com/Serpong/tasklist-study-server  
+  
+  
+
+<!--
+## Node modules
+- react: 17.0.2
+- react-native: 0.68.1
+- react-navigation: 6.0.10
+- react-native-vector-icons: 9.1.0
+- react-native-gesture-handler: 2.4.2
+- react-native-reanimated: 2.8.0
+- react-native-image-picker: 4.8.3
+- axios: 0.27.2
+- redux: 4.2.0
+- react-redux: 8.0.1
+-->
+
+
+
+## Preview
 ![tasklist (1)](https://user-images.githubusercontent.com/9810848/170917061-f96c843c-611d-436a-a73e-2698201c7273.jpg)
 ![tasklist (2)](https://user-images.githubusercontent.com/9810848/170917064-49b0a8c2-b944-4f4e-bc97-707fd2cf5346.jpg)
 ![tasklist (3)](https://user-images.githubusercontent.com/9810848/170917050-5d90fb89-6132-4aa6-b895-ddae1c147ad0.jpg)
