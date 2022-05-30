@@ -36,7 +36,6 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 
 
 const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
-	console.log('updated', item._id);
 	const _touchX = useSharedValue(0);
 	const deleting = useSharedValue(0);
 	
@@ -104,14 +103,11 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 			if(testvalue.value == true && _touchX.value < DELETE_THRESH){
 				SHAKE_VALUE.value = withRepeat(withSequence(withTiming(0), withTiming(1)), -1, true);
 				testvalue.value = false;
-				console.log('a');
 			}
 			else if(testvalue.value == false && _touchX.value >= DELETE_THRESH){
 				SHAKE_VALUE.value = 0.5;
 				testvalue.value = true;
-				console.log('b');
 			}
-			console.log(SHAKE_VALUE.value);
 		},
 		onEnd: ()=>{
 			if(_touchX.value <= DELETE_THRESH){
@@ -143,7 +139,6 @@ const Item = ({onPressTaskListItem, setTaskList, item, ...props})=>{
 }
 const TaskList = ({taskList, setTaskList, folder_id, handleTaskListScroll, showEditTask, ...props})=>{
 
-	console.log('main updated');
 	const refreshing = useRef(false).current;
 
 	useEffect(()=>{
