@@ -2,12 +2,12 @@
 
 React-Native 학습용 프로젝트입니다.
 
-## Server
-#### Frontend (react-native-cli)
-https://github.com/Serpong/tasklist-study-client 
-
-#### Backend (node.js Express)
-https://github.com/Serpong/tasklist-study-server  
+***Frontend (react-native-cli)***  
+https://github.com/Serpong/tasklist-study-client  
+  
+  
+***Backend (node.js Express)***  
+https://github.com/Serpong/tasklist-study-server
   
   
 
