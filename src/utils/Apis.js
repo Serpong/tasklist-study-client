@@ -68,24 +68,24 @@ const Apis = {
 		let params = {title,description, };
 		if(Object.keys(thumb).length)
 			params.thumb = thumb;
-		return await apiRequest("/folder", "post", params, true);
+		return await apiRequest("/folders", "post", params, true);
 	},
 	getFolderList: async ()=>{
-		return await apiRequest("/folder", "get");
+		return await apiRequest("/folders", "get");
 	},
 
 	//Task
 	getTaskList: async ({folder_id})=>{
-		return await apiRequest(`/task/findByFolder/${folder_id}`, "get");
+		return await apiRequest(`/tasks/findByFolder/${folder_id}`, "get");
 	},
 	insertTask: async ({content, folder_id})=>{
-		return await apiRequest("/task", "post", {content, folder_id});
+		return await apiRequest("/tasks", "post", {content, folder_id});
 	},
 	editTask: async ({content, task_id})=>{
-		return await apiRequest(`/task/${task_id}`, "post", {content});
+		return await apiRequest(`/tasks/${task_id}`, "post", {content});
 	},
 	deleteTask: async ({task_id})=>{
-		return await apiRequest(`/task/${task_id}`, "delete");
+		return await apiRequest(`/tasks/${task_id}`, "delete");
 	},
 }
 
