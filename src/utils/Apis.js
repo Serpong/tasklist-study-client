@@ -46,7 +46,6 @@ const apiRequest = async (path, method, data, isFormRequest)=>{
 	});
 }
 
-
 const Apis = {
 	API_HOST:GLOBALS.API_HOST,
 
@@ -77,7 +76,7 @@ const Apis = {
 
 	//Task
 	getTaskList: async ({folder_id})=>{
-		return await apiRequest(`/folder/${folder_id}/tasks`, "get");
+		return await apiRequest(`/task/findByFolder/${folder_id}`, "get");
 	},
 	insertTask: async ({content, folder_id})=>{
 		return await apiRequest("/task", "post", {content, folder_id});
